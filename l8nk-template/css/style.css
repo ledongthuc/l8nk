@@ -1,0 +1,22 @@
+.header {
+    width: 100%;
+    background-color: #3853a4;
+    height: 60px;
+    top: 0px;
+}
+.logo {
+    height: 56px;
+    margin: 3px auto auto;
+}
+.content {
+    margin-top: 37px;
+}
+button.btn-primary {
+    background-color: #3853A4;
+}
+.form-control:focus {
+    border-color: #3853A4;
+}
+a, h3.panel-title a {
+    color: #3853A4;
+}
