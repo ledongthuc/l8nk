@@ -5,17 +5,17 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="L8nk">
-	<meta name="keywords" content="l8nk, short, save, share, shorten">
-	<meta name="author" content="http://thuc.com.vn">
+    <meta name="viewport" content="<%=net.l8nk.common.Constants.META_VIEW_PORT%>">
+	<meta name="keywords" content="">
+	<meta name="author" content="Thuc">
+	<meta name="description" content="L8nk">
     
     <title>L8nk ! Simpler</title>
     <link rel="shortcut icon" href="favicon.ico">    
 
     <!-- Bootstrap -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link href="css/style.css" rel="stylesheet">
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/style.css" rel="stylesheet">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -31,8 +31,8 @@
     <!--<h1>Hello, world!</h1>-->
     <div class="header">
         <div class="container">
-            <a href="#">
-                <img src="img/logo.png" class="img-responsive logo" alt="L8nk">
+            <a href="<%=request.getContextPath()%>/Home">
+                <img src="/img/logo.png" class="img-responsive logo" alt="L8nk">
             </a>
         </div>
     </div>
