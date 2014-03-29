@@ -17,7 +17,7 @@ public class l8nkEncoding {
 			
 			nextChar = charset.charAt(nextCode);
 			charsBuilder.insert(0, nextChar);
-		} while(restOfCode > charsetLength);
+		} while(restOfCode > 0);
 		
 		return charsBuilder.toString();
 	}

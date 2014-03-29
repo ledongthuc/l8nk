@@ -8,7 +8,12 @@ public class l8nkEncodingTest {
 
 	@Test
 	public void testEncode() {
-		assertEquals("9", l8nkEncoding.encode(10));
+		
+		assertEquals("a", l8nkEncoding.encode(10));
+		assertEquals("2s", l8nkEncoding.encode(100));
+		assertEquals("7ps", l8nkEncoding.encode(10000));
+		assertEquals("255s", l8nkEncoding.encode(100000));
+		assertEquals("255s", l8nkEncoding.encode(97285));
 	}
 
 }
