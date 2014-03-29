@@ -1,23 +1,25 @@
 package net.l8nk.common;
 
+import java.math.BigInteger;
+
 public class l8nkEncoding {
 
 	private static String charset = "0123456789abcdefghijklmnopqrstuvwxyz";
 	
-	public static String encode(long code) {
+	public static String encode(BigInteger code) {
 		StringBuilder charsBuilder = new StringBuilder();
-		int charsetLength= charset.length();
-		long restOfCode = code;
+		String charsetLength= String.valueOf(charset.length());
+		BigInteger restOfCode = code;
 		int nextCode;
 		char nextChar;
 		
 		do {
-			nextCode = (int) (restOfCode % charsetLength);
-			restOfCode = restOfCode / charsetLength;
+			nextCode = restOfCode.mod(new BigInteger(charsetLength)).intValue();
+			restOfCode = restOfCode.divide(new BigInteger(charsetLength));
 			
 			nextChar = charset.charAt(nextCode);
 			charsBuilder.insert(0, nextChar);
-		} while(restOfCode > 0);
+		} while(restOfCode.compareTo(BigInteger.ZERO) > 0);
 		
 		return charsBuilder.toString();
 	}

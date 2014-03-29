@@ -1,5 +1,6 @@
 package net.l8nk.common;
 
+import java.math.BigInteger;
 import java.net.URI;
 
 public class Utility {
@@ -7,8 +8,8 @@ public class Utility {
 	public static String createShortLink(URI longLink) {
 		String shortLink = "";
 		
-		SharedObjects sharedObject = SharedObjects.getInstance();
-		long linkToken = sharedObject.getLinkToken();
+		SharedObject sharedObject = SharedObject.getInstance();
+		BigInteger linkToken = sharedObject.increaseLinkToken();
 		
 		
 		return shortLink;
