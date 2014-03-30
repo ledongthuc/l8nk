@@ -1,21 +1,21 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+    pageEncoding="utf-8"%>
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="<%=net.l8nk.common.Constants.META_VIEW_PORT%>">
-	<meta name="keywords" content="">
-	<meta name="author" content="Thuc">
-	<meta name="description" content="L8nk">
+   <meta charset="utf-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="<%=net.l8nk.common.Constants.META_VIEW_PORT%>">
+	<meta name="keywords" content="<%=net.l8nk.common.Constants.META_KEYWORDS%>">
+	<meta name="author" content="<%=net.l8nk.common.Constants.META_AUTHOR%>">
+	<meta name="description" content="Shorten your long link to compact one. You can use it easier and quicker.">
     
     <title>L8nk ! Simpler</title>
-    <link rel="shortcut icon" href="favicon.ico">    
+    <link rel="shortcut icon" href="<%=request.getContextPath()%>/favicon.ico">    
 
     <!-- Bootstrap -->
-    <link href="/css/bootstrap.min.css" rel="stylesheet">
-    <link href="/css/style.css" rel="stylesheet">
+    <link href="<%=request.getContextPath()%>/css/bootstrap.min.css" rel="stylesheet">
+    <link href="<%=request.getContextPath()%>/css/style.css" rel="stylesheet">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -32,7 +32,7 @@
     <div class="header">
         <div class="container">
             <a href="<%=request.getContextPath()%>/Home">
-                <img src="/img/logo.png" class="img-responsive logo" alt="L8nk">
+                <img src="<%=request.getContextPath()%>/img/logo.png" class="img-responsive logo" alt="L8nk">
             </a>
         </div>
     </div>
@@ -223,20 +223,20 @@
 		<div class="container">
 			<ul class="nav nav-pills pull-right">
 			
-				<li class="disabled"><a href="#">Home</a></li>
-				<li><a href="#">Donation</a></li>
-				<li><a href="#">Develop</a></li>
-				<li><a href="#">Feedback</a></li>
+				<li class="disabled"><a href="<%=request.getContextPath()%>">Home</a></li>
+				<li><a href="<%=request.getContextPath()%>/Donation">Donation</a></li>
+				<li><a href="<%=request.getContextPath()%>/Develop">Develop</a></li>
+				<li><a href="<%=request.getContextPath()%>/Feedback">Feedback</a></li>
 			</ul>
 		</div>
 		    
 	</div>		
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="js/jquery.js"></script>
+    <script src="<%=request.getContextPath()%>/js/jquery.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="js/bootstrap.min.js"></script>
+    <script src="<%=request.getContextPath()%>/js/bootstrap.min.js"></script>
     
-    <script src="js/script.js"></script>
+    <script src="<%=request.getContextPath()%>/js/script.js"></script>
   </body>
 </html>
