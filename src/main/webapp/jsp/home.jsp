@@ -1,13 +1,19 @@
+<%@page import="net.l8nk.model.modelView.HomeModelView"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="utf-8"%>
+<%@ page import = "net.l8nk.common.Constants" %>
+<%@ page import = "net.l8nk.model.Link" %>
+<%
+	HomeModelView model = (HomeModelView) request.getAttribute(Constants.PARAM_MODEL);
+%>
 <!DOCTYPE html>
 <html lang="en">
   <head>
    <meta charset="utf-8">
    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-   <meta name="viewport" content="<%=net.l8nk.common.Constants.META_VIEW_PORT%>">
-	<meta name="keywords" content="<%=net.l8nk.common.Constants.META_KEYWORDS%>">
-	<meta name="author" content="<%=net.l8nk.common.Constants.META_AUTHOR%>">
+   <meta name="viewport" content="<%=Constants.META_VIEW_PORT%>">
+	<meta name="keywords" content="<%=Constants.META_KEYWORDS%>">
+	<meta name="author" content="<%=Constants.META_AUTHOR%>">
 	<meta name="description" content="Shorten your long link to compact one. You can use it easier and quicker.">
     
     <title>L8nk ! Simpler</title>
@@ -23,6 +29,7 @@
       <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
       <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+    
   </head>
   <body>
     
@@ -40,30 +47,40 @@
 
     <div class="content">
         <div class="container">
+        	<% if(model.isHasError()) { %>
+        	<div class="alert alert-danger"><%= model.getErrorMessage() %></div>
+        	<% } %>
+        
             <div class="row">
                 <div class="col-md-8">
                     
                     <div class="well">
-						<label>Paste your long link here:</label>
-                        <div class="input-group">
-                            <input type="url" class="form-control" id="longLinkInput" name="longLinkInput" placeholder="http://">
-                            <span class="input-group-btn">
-                                <button id="longLinkButton" class="btn btn-primary" type="button">Shorten it</button>
-                            </span>
-                        </div><!-- /input-group -->
+                    	<form method="post" action="<%=request.getContextPath()%>/Home" onsubmit="return validate()">
+							<label>Paste your long link here:</label>
+	                        <div class="input-group">
+	                            <input type="text" class="form-control" id="longLinkInput" 
+	                            	   name="longLinkInput" placeholder="http://" value="<%=model.isGeneratedLink() ? model.getLink().getLongLink() : ""%>">
+	                            <span class="input-group-btn">
+	                                <button id="longLinkButton" name="action" value="<%=Constants.ACTION_CREATE_LINK%>" class="btn btn-primary" type="submit">Shorten it</button>
+	                            </span>
+	                        </div><!-- /input-group -->
+                        </form>
                     </div>
                     
                 </div>
                 <div class="col-md-4">
-					<div class="well result-panel">
-						<h3>
-							<input class="result-input" readonly value="http://l8nk.net/Sjc72" onclick="this.select()"/>
-						</h3>
-					</div>
+                	<% if(model.isGeneratedLink()) { %>
+						<div class="well result-panel">
+							<input id="shortLinkResult" class="result-input" readonly 
+									   value="<%=model.getLink().getShortLink()%>" onclick="this.select()"/>
+							<br/>
+							<small class="help-block">press <kbd>CTRL</kbd>+<kbd>C</kbd> to copy.</small>
+						</div>
+					<% } %>
                 </div>
             </div>
             
-            <div class="row">
+            <div class="row your-links">
                 <div class="col-md-12">
                     
                     <table class="table table-hover">
@@ -206,7 +223,7 @@
                             </td>
                         </tr>
                     </table>
-                    <button type="button" class="btn btn-primary btn-lg btn-block">Show more</button>
+                    <!-- <button type="button" class="btn btn-primary btn-lg btn-block">Show more</button> -->
                     
                 </div>
 				
@@ -238,5 +255,15 @@
     <script src="<%=request.getContextPath()%>/js/bootstrap.min.js"></script>
     
     <script src="<%=request.getContextPath()%>/js/script.js"></script>
+    
+    <% if(model.isGeneratedLink()) { %>
+    <script >
+    	$("#shortLinkResult").select();
+    	
+    	function validate() {
+    		
+    	}
+    </script>
+    <% } %>
   </body>
 </html>

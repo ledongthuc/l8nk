@@ -5,16 +5,23 @@ import java.net.URI;
 
 public class Utility {
 	
-	public static String createShortLink(URI longLink) {
-		String shortLink = "";
+	public static String formatUrl(String rawUrl) {
+		if(rawUrl == null || rawUrl.isEmpty()) {
+			return "";
+		}
 		
-		SharedObject sharedObject = SharedObject.getInstance();
-		BigInteger linkToken = sharedObject.increaseLinkToken();
+		rawUrl = rawUrl.toLowerCase();
 		
+		if(!rawUrl.startsWith("http")) {
+			rawUrl = "http://" + rawUrl;
+		}
 		
-		return shortLink;
+		return rawUrl;
 	}
-	
-	
+
+	public static String buildShortUrl(String encodedPart) {
+		String rawUrl = String.format(Constants.SHORT_LINK_PARTTEN, encodedPart);
+		return formatUrl(rawUrl);
+	}
 	
 }
