@@ -16,5 +16,6 @@ public class Constants {
 	public static final String PARAM_MODEL = "MODEL";
 	
 	public static final String SHORT_LINK_PARTTEN = "http://l8nk.net/%s";
+	public static final String USER_ID = "USER_ID";
 		
 }

@@ -1,16 +1,19 @@
 /**
  * 
  */
-package net.l8nk.model.modelView;
+package net.l8nk.model;
 
-import net.l8nk.model.Link;
+import java.util.ArrayList;
+
+import net.l8nk.data.entity.Link;
 
 /**
  * @author thuc.le
  *
  */
-public class HomeModelView {
+public class HomeModel {
 	private Link link;
+	private ArrayList<Link> usersLinks;
 	private String errorMessage;
 
 	public Link getLink() {
@@ -48,6 +51,20 @@ public class HomeModelView {
 		}
 		
 		return true;
+	}
+
+	/**
+	 * @return the usersLinks
+	 */
+	public ArrayList<Link> getUsersLinks() {
+		return usersLinks;
+	}
+
+	/**
+	 * @param usersLinks the usersLinks to set
+	 */
+	public void setUsersLinks(ArrayList<Link> usersLinks) {
+		this.usersLinks = usersLinks;
 	}
 	
 	

@@ -3,15 +3,12 @@ package net.l8nk.common;
 import java.math.BigInteger;
 import java.util.HashMap;
 
-import com.sun.swing.internal.plaf.synth.resources.synth;
-
-import net.l8nk.model.Link;
+import net.l8nk.data.entity.Link;
 
 public class SharedObject {
 	
 	private static SharedObject instance;
 	private BigInteger linkToken = BigInteger.ZERO;
-	private boolean isMoveCachedLinksToDatabase;
 	public static HashMap<String, Link> CachedLinks = new HashMap<String, Link>();
 	
 	private SharedObject() {
@@ -52,11 +49,4 @@ public class SharedObject {
 		}
 	}
 
-	synchronized public boolean isMoveCachedLinksToDatabase() {
-		return isMoveCachedLinksToDatabase;
-	}
-
-	synchronized public void MoveCachedLinksToDatabase(boolean isMoveCachedLinksToDatabase) {
-		this.isMoveCachedLinksToDatabase = isMoveCachedLinksToDatabase;
-	}
 }

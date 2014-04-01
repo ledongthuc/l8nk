@@ -1,9 +1,10 @@
 /**
  * 
  */
-package net.l8nk.model;
+package net.l8nk.data.entity;
 
 import java.math.BigInteger;
+import java.util.ArrayList;
 
 import net.l8nk.common.L8nkEncoding;
 import net.l8nk.common.SharedObject;
@@ -22,8 +23,16 @@ public class Link {
 		this.generateShortLink();
 	}
 	
+	public Link() {
+		
+	}
+	
 	public String getShortLink() {
 		return Utility.buildShortUrl(encodedPart);
+	}
+	
+	public void setEncodedPart(String encodedPart) {
+		this.encodedPart = encodedPart;
 	}
 	
 	public String getLongLink() {
@@ -53,4 +62,5 @@ public class Link {
 			}
 		}
 	}
+	
 }
