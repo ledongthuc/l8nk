@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import net.l8nk.common.SharedObject;
+import net.l8nk.entity.SharedObject;
 
 /**
  * @author thuc.le

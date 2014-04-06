@@ -1,9 +1,7 @@
-package net.l8nk.common;
+package net.l8nk.entity;
 
 import java.math.BigInteger;
 import java.util.HashMap;
-
-import net.l8nk.data.entity.Link;
 
 public class SharedObject {
 	

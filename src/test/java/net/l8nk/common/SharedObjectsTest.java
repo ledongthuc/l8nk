@@ -7,6 +7,8 @@ import static org.junit.Assert.assertEquals;
 
 import java.math.BigInteger;
 
+import net.l8nk.entity.SharedObject;
+
 import org.junit.Test;
 
 /**

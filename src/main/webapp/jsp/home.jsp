@@ -1,8 +1,8 @@
-<%@page import="net.l8nk.model.HomeModel"%>
+<%@page import="net.l8nk.viewmodel.HomeModel"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="utf-8"%>
 <%@ page import = "net.l8nk.common.Constants" %>
-<%@ page import = "net.l8nk.data.entity.Link" %>
+<%@ page import = "net.l8nk.entity.Link" %>
 <%
 	HomeModel model = (HomeModel) request.getAttribute(Constants.PARAM_MODEL);
 %>

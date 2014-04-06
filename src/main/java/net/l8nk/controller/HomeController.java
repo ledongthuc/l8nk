@@ -4,15 +4,8 @@
 package net.l8nk.controller;
 
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.Enumeration;
-import java.util.Hashtable;
 import java.util.UUID;
 
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -23,9 +16,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import net.l8nk.common.Constants;
 import net.l8nk.common.Utility;
-import net.l8nk.data.LinkService;
-import net.l8nk.data.entity.Link;
-import net.l8nk.model.HomeModel;
+import net.l8nk.entity.Link;
+import net.l8nk.service.LinkService;
+import net.l8nk.viewmodel.HomeModel;
 
 /**
  * @author thuc.le
@@ -107,7 +100,8 @@ public class HomeController extends HttpServlet {
 		}
 		
 		try {
-			Link linkModel = new Link(longLink);
+			String hashLink = Utility.md5(longLink);
+			Link linkModel = LinkService.CreateLink(longLink, hashLink);
 			HomeModel model = new HomeModel();
 			model.setLink(linkModel);
 			

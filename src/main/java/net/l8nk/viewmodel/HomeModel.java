@@ -1,11 +1,11 @@
 /**
  * 
  */
-package net.l8nk.model;
+package net.l8nk.viewmodel;
 
 import java.util.ArrayList;
 
-import net.l8nk.data.entity.Link;
+import net.l8nk.entity.Link;
 
 /**
  * @author thuc.le

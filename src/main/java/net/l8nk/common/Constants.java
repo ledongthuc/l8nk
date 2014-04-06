@@ -17,5 +17,8 @@ public class Constants {
 	
 	public static final String SHORT_LINK_PARTTEN = "http://l8nk.net/%s";
 	public static final String USER_ID = "USER_ID";
+	
+	public static final String DATA_SOURCE_JNDI = "java:comp/env/jdbc/l8nkDb";
+	public static final String CHARSET_UTF8 = "UTF-8";
 		
 }
