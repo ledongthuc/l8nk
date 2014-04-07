@@ -3,6 +3,7 @@
  */
 package net.l8nk.data;
 
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -20,15 +21,12 @@ import net.l8nk.entity.Link;
  */
 public class LinkData extends DataProviderBase<Link> {
 	
-	private final String INSERT_IF_NOT_EXIST = "INSERT IGNORE INTO `link` SET `longLink` = '?', `domainId` = '?', `clicks` = ?, `createdDate` = '?', `description` = '?', `hashLink` = '?' ; "
-													+ "SELECT * FROM `link` WHERE `hashLink` = '?';";
-	
 	public Link insertIfNotExist(Link link) {
 		
 		try {
-			Connection connection = DataConnection.getConnection();
+Connection connection = DataConnection.getConnection();
 			
-			PreparedStatement statement = connection.prepareStatement(INSERT_IF_NOT_EXIST);
+			CallableStatement statement = connection.prepareCall("{call Link_InsertIfNotExist(?, ?, ?, ?, ?, ?)}");
 			statement.setString(1, link.getLongLink());
 			statement.setInt(2, link.getDomainId());
 			statement.setInt(3, link.getClicks());
