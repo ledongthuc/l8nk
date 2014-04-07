@@ -1,3 +1,5 @@
+<%@page import="net.l8nk.common.Utility"%>
+<%@page import="net.l8nk.common.L8nkEncoding"%>
 <%@page import="net.l8nk.viewmodel.HomeModel"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="utf-8"%>
@@ -72,7 +74,7 @@
                 	<% if(model.isGeneratedLink()) { %>
 						<div class="well result-panel">
 							<input id="shortLinkResult" class="result-input" readonly 
-									   value="<%=model.getLink().getShortLink()%>" onclick="this.select()"/>
+									   value="<%= Utility.linkIdToShortUrl(model.getLink().getLinkId()) %>" onclick="this.select()"/>
 							<br/>
 							<small class="help-block">press <kbd>CTRL</kbd>+<kbd>C</kbd> to copy.</small>
 						</div>

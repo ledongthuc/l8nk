@@ -1,5 +1,6 @@
 package net.l8nk.common;
 
+import java.math.BigInteger;
 import java.security.MessageDigest;
 
 public class Utility {
@@ -21,6 +22,13 @@ public class Utility {
 	public static String buildShortUrl(String encodedPart) {
 		String rawUrl = String.format(Constants.SHORT_LINK_PARTTEN, encodedPart);
 		return formatUrl(rawUrl);
+	}
+	
+	public static String linkIdToShortUrl(int linkId) {
+		String encodedPart = L8nkEncoding.encode(BigInteger.valueOf(linkId));
+		String shortUrl = buildShortUrl(encodedPart);
+		return shortUrl;
+		
 	}
 	
 	public static String md5(String origin) {

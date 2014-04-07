@@ -100,8 +100,7 @@ public class HomeController extends HttpServlet {
 		}
 		
 		try {
-			String hashLink = Utility.md5(longLink);
-			Link linkModel = LinkService.CreateLink(longLink, hashLink);
+			Link linkModel = LinkService.CreateLink(longLink);
 			HomeModel model = new HomeModel();
 			model.setLink(linkModel);
 			

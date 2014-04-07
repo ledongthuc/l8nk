@@ -26,7 +26,7 @@ public class LinkData extends DataProviderBase<Link> {
 		try {
 Connection connection = DataConnection.getConnection();
 			
-			CallableStatement statement = connection.prepareCall("{call Link_InsertIfNotExist(?, ?, ?, ?, ?, ?)}");
+			CallableStatement statement = connection.prepareCall("call Link_InsertIfNotExist(?, ?, ?, ?, ?, ?)");
 			statement.setString(1, link.getLongLink());
 			statement.setInt(2, link.getDomainId());
 			statement.setInt(3, link.getClicks());
@@ -37,11 +37,16 @@ Connection connection = DataConnection.getConnection();
 			ResultSet resultSet = statement.executeQuery();
 			ArrayList<Link> links = fillData(resultSet);
 			
+			System.out.println("Thuc links length: " + links.size());
+			
 			if(links.isEmpty()) {
 				link.setLinkId(NULL_ID);
 			} else {
 				link = links.get(0);
 			}
+			
+			System.out.println("Thuc links link id: " + link.getLinkId());
+			System.out.println("Thuc links getLongLink: " + link.getLongLink());
 			
 		} catch (Exception e) {
 			e.printStackTrace();

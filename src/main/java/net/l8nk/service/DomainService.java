@@ -15,6 +15,8 @@ import net.l8nk.entity.Domain;
  */
 public class DomainService {
 
+	public static final String SCHEMA_SEPERATOR = "://";
+	
 	public static Domain createDomain(String domainValue) {
 		Domain result = new Domain();
 		result.setValue(domainValue);		
@@ -22,8 +24,8 @@ public class DomainService {
 		return result;
 	}
 	
-	public static Domain createDomain(String schema, String authority) {
-		String domain = schema + authority;
+	public static Domain createDomain(String schema, String host) {
+		String domain = schema + SCHEMA_SEPERATOR + host;
 		return createDomain(domain);
 	}
 	
@@ -32,9 +34,9 @@ public class DomainService {
 		
 		try {
 			URI url = new URI(longLink);
-			String schema = url.getHost();
-			String authority = url.getAuthority();
-			domain = DomainService.createDomain(schema, authority);
+			String schema = url.getScheme();
+			String host = url.getAuthority();
+			domain = DomainService.createDomain(schema, host);
 		} catch (URISyntaxException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
