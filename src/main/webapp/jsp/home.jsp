@@ -40,7 +40,7 @@
     <!--<h1>Hello, world!</h1>-->
     <div class="header">
         <div class="container">
-            <a href="<%=request.getContextPath()%>/Home">
+            <a href="<%=request.getContextPath()%>/App/Home">
                 <img src="<%=request.getContextPath()%>/img/logo.png" class="img-responsive logo" alt="L8nk">
             </a>
         </div>
@@ -57,7 +57,7 @@
                 <div class="col-md-8">
                     
                     <div class="well">
-                    	<form method="post" action="<%=request.getContextPath()%>/Home" onsubmit="return validate()">
+                    	<form method="post" action="<%=request.getContextPath()%>/App/Home" onsubmit="return validate()">
 							<label>Paste your long link here:</label>
 	                        <div class="input-group">
 	                            <input type="text" class="form-control" id="longLinkInput" 
@@ -243,9 +243,9 @@
 			<ul class="nav nav-pills pull-right">
 			
 				<li class="disabled"><a href="<%=request.getContextPath()%>">Home</a></li>
-				<li><a href="<%=request.getContextPath()%>/Donation">Donation</a></li>
-				<li><a href="<%=request.getContextPath()%>/Develop">Develop</a></li>
-				<li><a href="<%=request.getContextPath()%>/Feedback">Feedback</a></li>
+				<li><a href="<%=request.getContextPath()%>/App/Donation">Donation</a></li>
+				<li><a href="<%=request.getContextPath()%>/App/Develop">Develop</a></li>
+				<li><a href="<%=request.getContextPath()%>/App/Feedback">Feedback</a></li>
 			</ul>
 		</div>
 		    
@@ -255,8 +255,6 @@
     <script src="<%=request.getContextPath()%>/js/jquery.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="<%=request.getContextPath()%>/js/bootstrap.min.js"></script>
-    
-    <script src="<%=request.getContextPath()%>/js/script.js"></script>
     
     <% if(model.isGeneratedLink()) { %>
     <script >

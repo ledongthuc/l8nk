@@ -3,12 +3,14 @@
  */
 package net.l8nk.data;
 
+import java.math.BigInteger;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Types;
 import java.util.ArrayList;
 
 import net.l8nk.entity.Link;
@@ -85,6 +87,27 @@ public class LinkData extends DataProviderBase<Link> {
 			}
 		}
 		return links;
+	}
+	
+	public Link getLinkById(BigInteger linkId) {
+		try {
+			Connection connection = DataConnection.getConnection();
+			
+			CallableStatement statement = connection.prepareCall("call Link_GetById(?)");
+			statement.setObject(1, linkId, Types.BIGINT);
+			
+			ResultSet resultSet = statement.executeQuery();
+			ArrayList<Link> links = fillData(resultSet);
+			
+			if(links != null && links.size() > 0) {
+				return links.get(0);
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return null;
 	}
 	
 	public static String getLinksByUserId() {

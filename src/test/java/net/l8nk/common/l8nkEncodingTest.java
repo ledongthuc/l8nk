@@ -19,5 +19,17 @@ public class l8nkEncodingTest {
 		assertEquals("232d", L8nkEncoding.encode(new BigInteger("97285")));
 		assertEquals("19xtf1ts", L8nkEncoding.encode(new BigInteger("100000000000"))); //1 milion
 	}
+	
+	@Test
+	public void testDecode() {
+		
+		assertEquals(new BigInteger("10"), L8nkEncoding.decode("a"));
+		assertEquals(new BigInteger("100"), L8nkEncoding.decode("2s"));
+		assertEquals(new BigInteger("10000"), L8nkEncoding.decode("7ps"));
+		assertEquals(new BigInteger("100000"), L8nkEncoding.decode("255s"));
+		assertEquals(new BigInteger("27285"), L8nkEncoding.decode("l1x"));
+		assertEquals(new BigInteger("97285"), L8nkEncoding.decode("232d"));
+		assertEquals(new BigInteger("100000000000"), L8nkEncoding.decode("19xtf1ts")); //1 milion
+	}
 
 }

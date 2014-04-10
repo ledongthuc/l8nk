@@ -43,21 +43,34 @@ public class RootFilter implements Filter {
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 		System.out.println("Root Filter - begin filter");
 		HttpServletRequest httpRequest = (HttpServletRequest) request;
-		String uri = httpRequest.getRequestURI();
-		System.out.println("Root Filter - uri:" + uri);
+		String servletPath = httpRequest.getServletPath();
+		System.out.println("Root Filter - servlet path:" + servletPath);
 		
 		for (String resource : resources) {
-			if(uri.endsWith(resource)) {
+			if(servletPath.endsWith(resource)) {
+				System.out.println("Root Filter - is resource: true" + resource);
 				chain.doFilter(httpRequest, response);
+				return;
 			}
 		}
 		
-		if(uri.endsWith("/App/Home")) {
+		if(servletPath.startsWith("/App/")) {
+			System.out.println("Root Filter - home page");
 			chain.doFilter(httpRequest, response);
 			return;
 		}
+		
+		String newPath = null;
+		if(servletPath.equals("/")) {
+			System.out.println("Root Filter - home page");
+			newPath = "/App/Home";
+		} else {
+			System.out.println("Root Filter - short link page");
+			newPath = "/ShortLink" + servletPath;
+		}
 
-		httpRequest.getRequestDispatcher(uri).forward(httpRequest, response);
+		System.out.println("Root Filter - new path:" + newPath);
+		httpRequest.getRequestDispatcher(newPath).forward(httpRequest, response);
 	}
 
 	/* (non-Javadoc)

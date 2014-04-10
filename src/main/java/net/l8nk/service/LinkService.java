@@ -1,9 +1,11 @@
 package net.l8nk.service;
 
+import java.math.BigInteger;
 import java.sql.Date;
 
 import net.l8nk.common.Utility;
 import net.l8nk.data.DataRepository;
+import net.l8nk.data.LinkData;
 import net.l8nk.entity.Domain;
 import net.l8nk.entity.Link;
 
@@ -24,5 +26,10 @@ public class LinkService {
 		link = DataRepository.getLinkData().insertIfNotExist(link);
 		
 		return link;
+	}
+	
+	public static Link GetLinkById(BigInteger linkId) {
+		LinkData linkData = DataRepository.getLinkData();
+		return linkData.getLinkById(linkId);
 	}
 }
