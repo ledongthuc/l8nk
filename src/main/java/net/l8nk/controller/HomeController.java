@@ -15,7 +15,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import net.l8nk.common.Constants;
-import net.l8nk.common.Utility;
 import net.l8nk.entity.Link;
 import net.l8nk.service.LinkService;
 import net.l8nk.viewmodel.HomeModel;
@@ -24,7 +23,7 @@ import net.l8nk.viewmodel.HomeModel;
  * @author thuc.le
  *
  */
-@WebServlet(name="HomeController", urlPatterns="/Home")
+@WebServlet(name="HomeController", urlPatterns="/App/Home")
 public class HomeController extends HttpServlet {
 
 	public static final String VIEW = "/jsp/home.jsp";
@@ -36,9 +35,10 @@ public class HomeController extends HttpServlet {
 
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException ,IOException {
+		System.out.println("HomeController process");
 		HomeModel model = new HomeModel();
 		request.setAttribute(Constants.PARAM_MODEL, model);
-		this.handleView(VIEW, request, response);		
+		this.handleView(VIEW, request, response);
 	};
 	
 	@Override

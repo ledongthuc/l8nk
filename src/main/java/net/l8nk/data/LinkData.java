@@ -24,7 +24,7 @@ public class LinkData extends DataProviderBase<Link> {
 	public Link insertIfNotExist(Link link) {
 		
 		try {
-Connection connection = DataConnection.getConnection();
+			Connection connection = DataConnection.getConnection();
 			
 			CallableStatement statement = connection.prepareCall("call Link_InsertIfNotExist(?, ?, ?, ?, ?, ?)");
 			statement.setString(1, link.getLongLink());

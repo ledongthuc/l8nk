@@ -7,6 +7,26 @@ xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns
     	<welcome-file>/Home</welcome-file>
     </welcome-file-list>
     
+    <!-- <servlet>
+    	<servlet-name>HomeController</servlet-name>
+    	<servlet-class>net.l8nk.controller.HomeController</servlet-class>
+    </servlet>
+    
+    <servlet>
+    	<servlet-name>ShortLinkController</servlet-name>
+    	<servlet-class>net.l8nk.controller.ShortLinkController</servlet-class>
+    </servlet>
+    
+    <servlet-mapping>
+    	<servlet-name>ShortLinkController</servlet-name>
+    	<url-pattern>/*</url-pattern>
+    </servlet-mapping>
+    
+    <servlet-mapping>
+    	<servlet-name>HomeController</servlet-name>
+    	<url-pattern>/Home</url-pattern>
+    </servlet-mapping> -->
+    
     <resource-ref>
       <description>DB Connection</description>
       <res-ref-name>jdbc/l8nkDb</res-ref-name>
