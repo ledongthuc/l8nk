@@ -4,6 +4,7 @@
 package net.l8nk.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.UUID;
 
 import javax.servlet.RequestDispatcher;
@@ -36,6 +37,9 @@ public class HomeController extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException ,IOException {
 		System.out.println("HomeController process");
+		
+		String userCookie = getUserCookie(request, response);
+		
 		HomeModel model = new HomeModel();
 		request.setAttribute(Constants.PARAM_MODEL, model);
 		this.handleView(VIEW, request, response);
@@ -49,14 +53,13 @@ public class HomeController extends HttpServlet {
 			return;
 		}
 		
-		String userId = this.getUserId(request, response);
+		String userId = this.getUserCookie(request, response);
 		
 		switch (action) {
 			case Constants.ACTION_CREATE_LINK:
 				this.createLink(userId, request, response);
 				break;
 		}
-		
 	}
 	
 	private void handleView(String viewName, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -72,7 +75,7 @@ public class HomeController extends HttpServlet {
 		this.handleView(VIEW, request, response);
 	}
 	
-	private String getUserId(HttpServletRequest request, HttpServletResponse response) {
+	private String getUserCookie(HttpServletRequest request, HttpServletResponse response) {
 		Cookie[] cookies = request.getCookies();
 		String userId = null;
 		

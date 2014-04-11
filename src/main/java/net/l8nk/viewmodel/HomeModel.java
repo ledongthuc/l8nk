@@ -13,6 +13,7 @@ import net.l8nk.entity.Link;
  */
 public class HomeModel {
 	private Link link;
+	private ArrayList<Link> recentLinks;
 	private ArrayList<Link> usersLinks;
 	private String errorMessage;
 
@@ -65,6 +66,14 @@ public class HomeModel {
 	 */
 	public void setUsersLinks(ArrayList<Link> usersLinks) {
 		this.usersLinks = usersLinks;
+	}
+
+	public ArrayList<Link> getRecentLinks() {
+		return recentLinks;
+	}
+
+	public void setRecentLinks(ArrayList<Link> recentLinks) {
+		this.recentLinks = recentLinks;
 	}
 	
 	

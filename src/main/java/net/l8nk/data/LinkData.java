@@ -10,6 +10,7 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.sql.Types;
 import java.util.ArrayList;
 
@@ -128,6 +129,26 @@ public class LinkData extends DataProviderBase<Link> {
 		}
 		
 		return "";
+	}
+	
+	public ArrayList<Link> getByUserAgent(String userAgent) {
+		try {
+			Connection connection = DataConnection.getConnection();
+			
+			Statement statement = connection.createStatement();
+			ResultSet resultSet = statement.executeQuery("select link.* from `link`, `linkowner` "
+														+ "where link.linkId = linkowner.linkId "
+														+ "and linkowner.userAgent = '" + userAgent + "'");
+			
+			ArrayList<Link> links = fillData(resultSet);
+			
+			return links;
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return null;
 	}
 	
 }
