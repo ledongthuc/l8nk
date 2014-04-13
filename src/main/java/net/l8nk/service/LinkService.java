@@ -39,4 +39,8 @@ public class LinkService {
 	public static void saveLinkToUser(long linkId, String userAgent) {
 		DataRepository.getLinkData().saveLinkToUser(linkId, userAgent);
 	}
+	
+	public static void increaseCounter(long linkId) {
+		DataRepository.getLinkData().increaseCounter(linkId);
+	}
 }

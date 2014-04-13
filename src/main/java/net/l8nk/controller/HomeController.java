@@ -28,6 +28,7 @@ import net.l8nk.viewmodel.HomeModel;
 public class HomeController extends HttpServlet {
 
 	public static final String VIEW = "/jsp/home.jsp";
+	private HomeModel model;
 	
 	/**
 	 * 
@@ -41,9 +42,9 @@ public class HomeController extends HttpServlet {
 		String userCookie = getUserCookie(request, response);
 		ArrayList<Link> recentLinks = LinkService.GetLinksByUserAgent(userCookie);
 		
-		HomeModel model = new HomeModel();
-		model.setRecentLinks(recentLinks);
-		request.setAttribute(Constants.PARAM_MODEL, model);
+		this.model = new HomeModel();
+		this.model.setRecentLinks(recentLinks);
+		request.setAttribute(Constants.PARAM_MODEL, this.model);
 		this.handleView(VIEW, request, response);
 	};
 	
@@ -55,6 +56,7 @@ public class HomeController extends HttpServlet {
 			return;
 		}
 		
+		this.model = new HomeModel();
 		String userCookie = this.getUserCookie(request, response);
 		
 		switch (action) {
@@ -108,15 +110,13 @@ public class HomeController extends HttpServlet {
 		
 		try {
 			Link linkModel = LinkService.CreateLink(longLink);
+			LinkService.saveLinkToUser(linkModel.getLinkId(), userCookie);
 			ArrayList<Link> recentLinks = LinkService.GetLinksByUserAgent(userCookie);
 			
-			LinkService.saveLinkToUser(linkModel.getLinkId(), userCookie);
+			this.model.setLink(linkModel);
+			this.model.setRecentLinks(recentLinks);
 			
-			HomeModel model = new HomeModel();
-			model.setLink(linkModel);
-			model.setRecentLinks(recentLinks);
-			
-			request.setAttribute(Constants.PARAM_MODEL, model);
+			request.setAttribute(Constants.PARAM_MODEL, this.model);
 			this.handleView(VIEW, request, response);
 			return;
 			

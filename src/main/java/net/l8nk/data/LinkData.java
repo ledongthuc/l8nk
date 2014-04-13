@@ -9,10 +9,10 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.sql.Types;
 import java.util.ArrayList;
 
+import net.l8nk.common.L8nkEncoding;
 import net.l8nk.entity.Link;
 
 
@@ -79,6 +79,9 @@ public class LinkData extends DataProviderBase<Link> {
 				link.setLastAccessed(lastAccessed);
 				String description = resultSet.getString("description");
 				link.setDescription(description);
+				String encodedPart = L8nkEncoding.encode(linkId);
+				link.setEncodedPart(encodedPart);
+				
 				
 				links.add(link);
 			} catch (SQLException e) {
@@ -136,7 +139,8 @@ public class LinkData extends DataProviderBase<Link> {
 			
 			PreparedStatement statement = connection.prepareStatement("select link.* from `link`, `linkowner` "
 															+ "where link.linkId = linkowner.linkId "
-															+ "and linkowner.userAgent = '" + userAgent + "'");
+															+ "and linkowner.userAgent = '" + userAgent + "'"
+															+ "order by linkowner.id desc");
 			ResultSet resultSet = statement.executeQuery();
 			
 			ArrayList<Link> links = fillData(resultSet);
@@ -157,6 +161,18 @@ public class LinkData extends DataProviderBase<Link> {
 			PreparedStatement statement = connection.prepareStatement("INSERT IGNORE INTO `linkowner` SET `linkId` = ?, `userAgent` = ?;");
 			statement.setObject(1, linkId, Types.BIGINT);
 			statement.setString(2, userAgent);
+			statement.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void increaseCounter(long linkId) {
+		try {
+			Connection connection = DataConnection.getConnection();
+			
+			PreparedStatement statement = connection.prepareStatement("UPDATE `link` SET `clicks` = `clicks` + 1 WHERE linkId = ?");
+			statement.setObject(1, linkId, Types.BIGINT);
 			statement.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -39,10 +39,13 @@ public class ShortLinkController extends HttpServlet {
 		
 		Link link = LinkService.GetLinkById(linkId);
 		if(link != null && link.getLongLink() != null && !link.getLongLink().isEmpty()) {
+			LinkService.increaseCounter(linkId);
+			
 			String longLink = link.getLongLink();
 			System.out.println("ShortLinkController - long link: " + longLink);
 			response.setHeader("Location", longLink);
 			response.setStatus(HttpServletResponse.SC_MOVED_TEMPORARILY);
+			
 			return;
 		}
 		

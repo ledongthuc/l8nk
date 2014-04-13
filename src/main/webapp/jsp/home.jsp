@@ -75,7 +75,7 @@
                 	<% if(model.isGeneratedLink()) { %>
 						<div class="well result-panel">
 							<input id="shortLinkResult" class="result-input" readonly 
-									   value="<%= Utility.linkIdToShortUrl(model.getLink().getLinkId()) %>" onclick="this.select()"/>
+									   value="<%= model.getLink().getShortLink() %>" onclick="this.select()"/>
 							<br/>
 							<small class="help-block">press <kbd>CTRL</kbd>+<kbd>C</kbd> to copy.</small>
 						</div>
@@ -96,45 +96,53 @@
                             <th>
                                 Long link
                             </th>
-                            <th>
+                            <!-- <th>
                                 Created
-                            </th>
+                            </th> -->
                             <th>
                                 Short link
                             </th>
                             <th>
-                                Viewed
+                                Viewer
                             </th>
                         </tr>
                         
                         <% 
-                            
+                            boolean isFirstRow = true;
                             for(Link recentLink : recents) {
+                            	if(isFirstRow) {
+                                 isFirstRow = false;
                         %>
-                        
-                        <tr>
+                                 <tr class="success">
+                        <%
+                            	} else {
+                        %>
+                                 <tr>
+                        <%
+                            	}
+                        %>
                             <td>
                                 <a href="<%= recentLink.getShortLink() %>"><%= recentLink.getLongLink() %></a>
                             </td>
-                            <td>
+                            <%-- <td>
                                 <%= Utility.formatDateDisplay(recentLink.getCreatedDate()) %>
-                            </td>
+                            </td> --%>
                             <td>
                                 <a href="<%= recentLink.getShortLink() %>"><%= recentLink.getShortLink() %></a>
                             </td>
-                            <!-- <td>
-                                <a href="#">Details</a>
-                            </td> -->
                             <td>
                                <%= recentLink.getClicks() %>
                             </td>
                         </tr>
                         
                         <% } %>
+                        </table>
+                        </div>
+                        </div>
             <%
             }
             %>
-			
+			   
 			
 			
         </div>
@@ -149,7 +157,7 @@
 			
 				<li class="disabled"><a href="<%=request.getContextPath()%>">Home</a></li>
 				<li><a href="<%=request.getContextPath()%>/App/Donation">Donation</a></li>
-				<li><a href="<%=request.getContextPath()%>/App/Develop">Develop</a></li>
+				<%-- <li><a href="<%=request.getContextPath()%>/App/Develop">Develop</a></li> --%>
 				<li><a href="<%=request.getContextPath()%>/App/Feedback">Feedback</a></li>
 			</ul>
 		</div>
