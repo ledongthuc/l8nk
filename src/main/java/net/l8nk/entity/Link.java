@@ -13,7 +13,7 @@ import net.l8nk.common.Utility;
  */
 public class Link {
 	
-	private int linkId;
+	private long linkId;
 	private String encodedPart;
 	private String longLink;
 	private int domainId;
@@ -39,11 +39,11 @@ public class Link {
 		this.longLink = longLink;
 	}
 
-	public int getLinkId() {
+	public long getLinkId() {
 		return linkId;
 	}
 
-	public void setLinkId(int linkId) {
+	public void setLinkId(long linkId) {
 		this.linkId = linkId;
 	}
 

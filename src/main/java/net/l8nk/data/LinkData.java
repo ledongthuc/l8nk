@@ -3,7 +3,6 @@
  */
 package net.l8nk.data;
 
-import java.math.BigInteger;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.Date;
@@ -66,7 +65,7 @@ public class LinkData extends DataProviderBase<Link> {
 			try {
 				Link link = new Link();
 				
-				int linkId = resultSet.getInt("linkId");
+				long linkId = resultSet.getLong("linkId");
 				link.setLinkId(linkId);
 				String longLink = resultSet.getString("longLink");
 				link.setLongLink(longLink);
@@ -90,7 +89,7 @@ public class LinkData extends DataProviderBase<Link> {
 		return links;
 	}
 	
-	public Link getLinkById(BigInteger linkId) {
+	public Link getLinkById(long linkId) {
 		try {
 			Connection connection = DataConnection.getConnection();
 			
@@ -135,10 +134,10 @@ public class LinkData extends DataProviderBase<Link> {
 		try {
 			Connection connection = DataConnection.getConnection();
 			
-			Statement statement = connection.createStatement();
-			ResultSet resultSet = statement.executeQuery("select link.* from `link`, `linkowner` "
-														+ "where link.linkId = linkowner.linkId "
-														+ "and linkowner.userAgent = '" + userAgent + "'");
+			PreparedStatement statement = connection.prepareStatement("select link.* from `link`, `linkowner` "
+															+ "where link.linkId = linkowner.linkId "
+															+ "and linkowner.userAgent = '" + userAgent + "'");
+			ResultSet resultSet = statement.executeQuery();
 			
 			ArrayList<Link> links = fillData(resultSet);
 			
@@ -151,4 +150,16 @@ public class LinkData extends DataProviderBase<Link> {
 		return null;
 	}
 	
+	public void saveLinkToUser(long linkId, String userAgent) {
+		try {
+			Connection connection = DataConnection.getConnection();
+			
+			PreparedStatement statement = connection.prepareStatement("INSERT IGNORE INTO `linkowner` SET `linkId` = ?, `userAgent` = ?;");
+			statement.setObject(1, linkId, Types.BIGINT);
+			statement.setString(2, userAgent);
+			statement.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 }

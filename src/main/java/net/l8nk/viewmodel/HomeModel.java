@@ -69,6 +69,9 @@ public class HomeModel {
 	}
 
 	public ArrayList<Link> getRecentLinks() {
+		if(recentLinks == null) {
+			recentLinks = new ArrayList<>();
+		}
 		return recentLinks;
 	}
 

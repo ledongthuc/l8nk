@@ -39,8 +39,10 @@ public class HomeController extends HttpServlet {
 		System.out.println("HomeController process");
 		
 		String userCookie = getUserCookie(request, response);
+		ArrayList<Link> recentLinks = LinkService.GetLinksByUserAgent(userCookie);
 		
 		HomeModel model = new HomeModel();
+		model.setRecentLinks(recentLinks);
 		request.setAttribute(Constants.PARAM_MODEL, model);
 		this.handleView(VIEW, request, response);
 	};
@@ -53,11 +55,11 @@ public class HomeController extends HttpServlet {
 			return;
 		}
 		
-		String userId = this.getUserCookie(request, response);
+		String userCookie = this.getUserCookie(request, response);
 		
 		switch (action) {
 			case Constants.ACTION_CREATE_LINK:
-				this.createLink(userId, request, response);
+				this.createLink(userCookie, request, response);
 				break;
 		}
 	}
@@ -79,12 +81,14 @@ public class HomeController extends HttpServlet {
 		Cookie[] cookies = request.getCookies();
 		String userId = null;
 		
-		for (Cookie cookie : cookies) {
-			if(cookie.getName().equalsIgnoreCase(Constants.USER_ID)) {
-				userId = cookie.getValue();
-				break;
+		if(cookies != null) {
+			for (Cookie cookie : cookies) {
+				if(cookie.getName().equalsIgnoreCase(Constants.USER_ID)) {
+					userId = cookie.getValue();
+					break;
+				}
 			}
-		}
+		}		
 		
 		if(userId == null || userId.isEmpty()) {
 			userId = UUID.randomUUID().toString();
@@ -95,7 +99,7 @@ public class HomeController extends HttpServlet {
 		return userId;
 	}
 	
-	private void createLink(String userId, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {		
+	private void createLink(String userCookie, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {		
 		String longLink = request.getParameter("longLinkInput");
 		if(longLink == null || longLink.isEmpty()) {
 			this.handleErrorMessage("We don't see your link, could you please check it again ?", request, response);
@@ -104,8 +108,13 @@ public class HomeController extends HttpServlet {
 		
 		try {
 			Link linkModel = LinkService.CreateLink(longLink);
+			ArrayList<Link> recentLinks = LinkService.GetLinksByUserAgent(userCookie);
+			
+			LinkService.saveLinkToUser(linkModel.getLinkId(), userCookie);
+			
 			HomeModel model = new HomeModel();
 			model.setLink(linkModel);
+			model.setRecentLinks(recentLinks);
 			
 			request.setAttribute(Constants.PARAM_MODEL, model);
 			this.handleView(VIEW, request, response);
@@ -117,5 +126,7 @@ public class HomeController extends HttpServlet {
 		
 		this.handleErrorMessage("An exception occurs, please try again !!!", request, response);
 	}
+	
+	
 	
 }

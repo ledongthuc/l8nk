@@ -8,8 +8,6 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-
-import sun.rmi.runtime.Log;
 import net.l8nk.entity.Domain;
 
 /**

@@ -35,7 +35,7 @@ public class ShortLinkController extends HttpServlet {
 		
 		String encodedPart = request.getPathInfo().substring(1);
 		System.out.println("ShortLinkController - servletPath: " + encodedPart);
-		BigInteger linkId = L8nkEncoding.decode(encodedPart);
+		long linkId = L8nkEncoding.decode(encodedPart);
 		
 		Link link = LinkService.GetLinkById(linkId);
 		if(link != null && link.getLongLink() != null && !link.getLongLink().isEmpty()) {

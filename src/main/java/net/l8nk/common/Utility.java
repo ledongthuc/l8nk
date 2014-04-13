@@ -1,7 +1,9 @@
 package net.l8nk.common;
 
-import java.math.BigInteger;
 import java.security.MessageDigest;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class Utility {
 	
@@ -24,8 +26,8 @@ public class Utility {
 		return formatUrl(rawUrl);
 	}
 	
-	public static String linkIdToShortUrl(int linkId) {
-		String encodedPart = L8nkEncoding.encode(BigInteger.valueOf(linkId));
+	public static String linkIdToShortUrl(long linkId) {
+		String encodedPart = L8nkEncoding.encode(linkId);
 		String shortUrl = buildShortUrl(encodedPart);
 		return shortUrl;
 		
@@ -44,4 +46,36 @@ public class Utility {
 		return origin;
 	}
 	
+	public static String formatDateDisplay(Date date) {
+		SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd hh:mm a");
+		
+		try {
+			
+			long diff = Math.abs(date.getTime() - new Date().getTime());
+			long diffDays = diff / (24 * 60 * 60 * 1000);
+
+
+			
+			if(diffDays == 0) {
+				return "Today";
+			}
+			
+			if(diffDays == 1) {
+				return "1 day ago";
+			}
+			
+			if(diffDays == 2) {
+				return "2 days ago";
+			}
+			
+			if(diffDays == 3) {
+				return "3 days ago";
+			}
+			
+		} catch(Exception ex) {
+			ex.printStackTrace();
+		}
+		
+		return df.format(date);
+	}
 }

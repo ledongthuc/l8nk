@@ -1,12 +1,11 @@
 package net.l8nk.entity;
 
-import java.math.BigInteger;
 import java.util.HashMap;
 
 public class SharedObject {
 	
 	private static SharedObject instance;
-	private BigInteger linkToken = BigInteger.ZERO;
+	private Long linkToken = new Long(0);
 	public static HashMap<String, Link> CachedLinks = new HashMap<String, Link>();
 	
 	private SharedObject() {
@@ -24,14 +23,14 @@ public class SharedObject {
 	/**
 	 * @return the currentId
 	 */
-	public BigInteger getLinkToken() {
+	public long getLinkToken() {
 		return linkToken;
 	}
 
 	/**
 	 * @param linkToken the currentId to set
 	 */
-	public void setLinkToken(BigInteger linkToken) {
+	public void setLinkToken(long linkToken) {
 		synchronized (this.linkToken) {
 			this.linkToken = linkToken;
 		}		
@@ -40,9 +39,9 @@ public class SharedObject {
 	/**
 	 * @return the currentId after increase it 
 	 */
-	public BigInteger increaseLinkToken() {
+	public long increaseLinkToken() {
 		synchronized (this.linkToken) {
-			this.linkToken = this.linkToken.add(new BigInteger("1"));
+			this.linkToken = this.linkToken + 1;
 			return this.linkToken;
 		}
 	}

@@ -1,3 +1,4 @@
+<%@page import="java.util.ArrayList"%>
 <%@page import="net.l8nk.common.Utility"%>
 <%@page import="net.l8nk.common.L8nkEncoding"%>
 <%@page import="net.l8nk.viewmodel.HomeModel"%>
@@ -82,6 +83,11 @@
                 </div>
             </div>
             
+            <% 
+            ArrayList<Link> recents = model.getRecentLinks();
+            if(recents != null && recents.size() > 0) {
+            %>
+            
             <div class="row your-links">
                 <div class="col-md-12">
                     
@@ -97,148 +103,47 @@
                                 Short link
                             </th>
                             <th>
-                                
-                            </th>
-                            <th>
                                 Viewed
                             </th>
                         </tr>
                         
-                        <tr class="success">
-                            <td>
-                                <a href="http://thuc.com.vn">http://thuc.com.vn</a>
-                            </td>
-                            <td>
-                                3 days
-                            </td>
-                            <td>
-                                <a href="http://l8nk.net/ee8k">http://l8nk.net/ee8k</a>
-                            </td>
-                            <td>
-                                <a href="#">Details</a>
-                            </td>
-                            <td>
-                                13
-                            </td>
-                        </tr>
+                        <% 
+                            
+                            for(Link recentLink : recents) {
+                        %>
                         
                         <tr>
                             <td>
-                                <a href="#">http://thuc.com.vn/test</a>
+                                <a href="<%= recentLink.getShortLink() %>"><%= recentLink.getLongLink() %></a>
                             </td>
                             <td>
-                                3 days
+                                <%= Utility.formatDateDisplay(recentLink.getCreatedDate()) %>
                             </td>
                             <td>
-                                <a href="#">http://l8nk.net/Sjc72</a>
+                                <a href="<%= recentLink.getShortLink() %>"><%= recentLink.getShortLink() %></a>
                             </td>
-                            <td>
+                            <!-- <td>
                                 <a href="#">Details</a>
-                            </td>
+                            </td> -->
                             <td>
-                                3
+                               <%= recentLink.getClicks() %>
                             </td>
                         </tr>
-                        <tr>
-                            <td>
-                                <a href="#">http://thuc.com.vn/test</a>
-                            </td>
-                            <td>
-                                3 days
-                            </td>
-                            <td>
-                                <a href="#">http://l8nk.net/Sjc72</a>
-                            </td>
-                            <td>
-                                <a href="#">Details</a>
-                            </td>
-                            <td>
-                                3
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <a href="#">http://thuc.com.vn/test</a>
-                            </td>
-                            <td>
-                                3 days
-                            </td>
-                            <td>
-                                <a href="#">http://l8nk.net/Sjc72</a>
-                            </td>
-                            <td>
-                                <a href="#">Details</a>
-                            </td>
-                            <td>
-                                3
-                            </td>
-                        </tr>
-						<tr>
-                            <td>
-                                <a href="#">http://thuc.com.vn/test</a>
-                            </td>
-                            <td>
-                                3 days
-                            </td>
-                            <td>
-                                <a href="#">http://l8nk.net/Sjc72</a>
-                            </td>
-                            <td>
-                                <a href="#">Details</a>
-                            </td>
-                            <td>
-                                3
-                            </td>
-                        </tr>
-						<tr>
-                            <td>
-                                <a href="#">http://thuc.com.vn/test</a>
-                            </td>
-                            <td>
-                                3 days
-                            </td>
-                            <td>
-                                <a href="#">http://l8nk.net/Sjc72</a>
-                            </td>
-                            <td>
-                                <a href="#">Details</a>
-                            </td>
-                            <td>
-                                3
-                            </td>
-                        </tr>
-						<tr>
-                            <td>
-                                <a href="#">http://thuc.com.vn/test</a>
-                            </td>
-                            <td>
-                                3 days
-                            </td>
-                            <td>
-                                <a href="#">http://l8nk.net/Sjc72</a>
-                            </td>
-                            <td>
-                                <a href="#">Details</a>
-                            </td>
-                            <td>
-                                3
-                            </td>
-                        </tr>
-                    </table>
-                    <!-- <button type="button" class="btn btn-primary btn-lg btn-block">Show more</button> -->
-                    
-                </div>
-				
-            </div>
+                        
+                        <% } %>
+            <%
+            }
+            %>
 			
 			
 			
         </div>
     </div>
     
-    <hr class="footer-line"/>
+    
 	
 	<div class="footer">
+	   <hr class="footer-line"/>
 		<div class="container">
 			<ul class="nav nav-pills pull-right">
 			

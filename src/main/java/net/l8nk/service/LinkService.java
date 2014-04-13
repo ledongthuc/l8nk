@@ -1,6 +1,4 @@
 package net.l8nk.service;
-
-import java.math.BigInteger;
 import java.sql.Date;
 import java.util.ArrayList;
 
@@ -29,12 +27,16 @@ public class LinkService {
 		return link;
 	}
 	
-	public static Link GetLinkById(BigInteger linkId) {
+	public static Link GetLinkById(long linkId) {
 		LinkData linkData = DataRepository.getLinkData();
 		return linkData.getLinkById(linkId);
 	}
 	
-	public static ArrayList<Link> GetLinkByUserAgent(String userAgent) {
+	public static ArrayList<Link> GetLinksByUserAgent(String userAgent) {
 		return DataRepository.getLinkData().getByUserAgent(userAgent);
+	}
+	
+	public static void saveLinkToUser(long linkId, String userAgent) {
+		DataRepository.getLinkData().saveLinkToUser(linkId, userAgent);
 	}
 }
