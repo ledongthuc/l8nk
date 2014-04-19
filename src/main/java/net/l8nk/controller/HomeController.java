@@ -95,6 +95,7 @@ public class HomeController extends HttpServlet {
 		if(userId == null || userId.isEmpty()) {
 			userId = UUID.randomUUID().toString();
 			Cookie userCookie = new Cookie(Constants.USER_ID, userId);
+			userCookie.setMaxAge(Integer.MAX_VALUE);
 			response.addCookie(userCookie);
 		}
 		

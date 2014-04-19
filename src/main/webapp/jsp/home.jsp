@@ -1,51 +1,19 @@
 <%@page import="java.util.ArrayList"%>
-<%@page import="net.l8nk.common.Utility"%>
-<%@page import="net.l8nk.common.L8nkEncoding"%>
+<%@page import="net.l8nk.common.*"%>
 <%@page import="net.l8nk.viewmodel.HomeModel"%>
+<%@ page import = "net.l8nk.entity.Link" %>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="utf-8"%>
-<%@ page import = "net.l8nk.common.Constants" %>
-<%@ page import = "net.l8nk.entity.Link" %>
 <%
 	HomeModel model = (HomeModel) request.getAttribute(Constants.PARAM_MODEL);
 %>
 <!DOCTYPE html>
 <html lang="en">
   <head>
-   <meta charset="utf-8">
-   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-   <meta name="viewport" content="<%=Constants.META_VIEW_PORT%>">
-	<meta name="keywords" content="<%=Constants.META_KEYWORDS%>">
-	<meta name="author" content="<%=Constants.META_AUTHOR%>">
-	<meta name="description" content="Shorten your long link to compact one. You can use it easier and quicker.">
-    
-    <title>L8nk ! Simpler</title>
-    <link rel="shortcut icon" href="<%=request.getContextPath()%>/favicon.ico">    
-
-    <!-- Bootstrap -->
-    <link href="<%=request.getContextPath()%>/css/bootstrap.min.css" rel="stylesheet">
-    <link href="<%=request.getContextPath()%>/css/style.css" rel="stylesheet">
-
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
-    
+    <jsp:include page="partial/header.jsp"></jsp:include>
   </head>
   <body>
-    
-    
-        
-    <!--<h1>Hello, world!</h1>-->
-    <div class="header">
-        <div class="container">
-            <a href="<%=request.getContextPath()%>/App/Home">
-                <img src="<%=request.getContextPath()%>/img/logo.png" class="img-responsive logo" alt="L8nk">
-            </a>
-        </div>
-    </div>
+    <jsp:include page="partial/banner.jsp"></jsp:include>
     
 
     <div class="content">
@@ -147,36 +115,14 @@
 			
         </div>
     </div>
-    
-    
+   
+   <jsp:include page="partial/footer.jsp"></jsp:include>
 	
-	<div class="footer">
-	   <hr class="footer-line"/>
-		<div class="container">
-			<ul class="nav nav-pills pull-right">
-			
-				<li class="disabled"><a href="<%=request.getContextPath()%>">Home</a></li>
-				<li><a href="<%=request.getContextPath()%>/App/Donation">Donation</a></li>
-				<%-- <li><a href="<%=request.getContextPath()%>/App/Develop">Develop</a></li> --%>
-				<li><a href="<%=request.getContextPath()%>/App/Feedback">Feedback</a></li>
-			</ul>
-		</div>
-		    
-	</div>		
-
-    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="<%=request.getContextPath()%>/js/jquery.js"></script>
-    <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="<%=request.getContextPath()%>/js/bootstrap.min.js"></script>
-    
-    <% if(model.isGeneratedLink()) { %>
+	  <% if(model.isGeneratedLink()) { %>
     <script >
-    	$("#shortLinkResult").select();
-    	
-    	function validate() {
-    		
-    	}
+      $("#shortLinkResult").select();
     </script>
     <% } %>
+	
   </body>
 </html>
