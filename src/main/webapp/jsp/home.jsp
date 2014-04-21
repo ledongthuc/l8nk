@@ -26,7 +26,7 @@
                 <div class="col-md-8">
                     
                     <div class="well">
-                    	<form method="post" action="<%=request.getContextPath()%>/App/Home" onsubmit="return validate()">
+                    	<form method="post" action="<%=request.getContextPath()%>/" onsubmit="return validate()">
 							<label>Paste your long link here:</label>
 	                        <div class="input-group">
 	                            <input type="text" class="form-control" id="longLinkInput" 

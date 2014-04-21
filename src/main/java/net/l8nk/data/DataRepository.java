@@ -20,7 +20,7 @@ public class DataRepository {
 	}
 	
 	private static ContactData contactData;
-	public static ContactData getContactData() {
+	public static ContactData getFeedbackData() {
 		if(contactData == null) {
 			contactData = new ContactData();
 		}

@@ -14,7 +14,7 @@ public class FeedbackModel {
 	
 	private String content;
 	
-	private String errorMessage;
+	private String message;
 	
 	private boolean isSuccess;
 	
@@ -42,19 +42,29 @@ public class FeedbackModel {
 		this.content = content;
 	}
 
-	public String getErrorMessage() {
-		return errorMessage;
+	public String getMessage() {
+		return message;
 	}
 
-	public void setErrorMessage(String errorMessage) {
-		this.errorMessage = errorMessage;
+	public void setMessage(String message) {
+		this.message = message;
 	}
 
+	public boolean hasError() {
+		return !isSuccess && message != null && !message.isEmpty();
+	}
+	
 	public boolean isSuccess() {
 		return isSuccess;
 	}
 
 	public void setSuccess(boolean isSuccess) {
 		this.isSuccess = isSuccess;
+	}
+	
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return String.format("Name: %s, Email: %s, Content: %s",  this.getName(), this.getEmail(), this.getContent());
 	}
 }

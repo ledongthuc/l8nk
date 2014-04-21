@@ -103,9 +103,9 @@ public class HomeController extends HttpServlet {
 	
 	private void createLink(String userCookie, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {		
 		String longLink = request.getParameter("longLinkInput");
-		ArrayList<Link> recentLinks = LinkService.GetLinksByUserAgent(userCookie);
 		
 		if(longLink == null || longLink.isEmpty()) {
+			ArrayList<Link> recentLinks = LinkService.GetLinksByUserAgent(userCookie);
 			this.handleErrorMessage("We don't see your link, could you please check it again ?", request, response, recentLinks);
 			return;
 		}
@@ -116,6 +116,7 @@ public class HomeController extends HttpServlet {
 			
 			HomeModel model  = new HomeModel();
 			model.setLink(linkModel);
+			ArrayList<Link> recentLinks = LinkService.GetLinksByUserAgent(userCookie);
 			model.setRecentLinks(recentLinks);
 			
 			request.setAttribute(Constants.PARAM_MODEL, model);
@@ -126,6 +127,7 @@ public class HomeController extends HttpServlet {
 			e.printStackTrace();
 		}
 		
+		ArrayList<Link> recentLinks = LinkService.GetLinksByUserAgent(userCookie);
 		this.handleErrorMessage("An exception occurs, please try again !!!", request, response, recentLinks);
 	}
 	

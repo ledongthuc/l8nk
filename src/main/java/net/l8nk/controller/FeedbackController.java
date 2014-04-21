@@ -24,9 +24,11 @@ public class FeedbackController extends HttpServlet  {
 	private final String MAX_NAME_LENGTH = "Your name is too long, we only support 50 characters";
 	private final String EMAIL_IS_EMPTY = "Please fill your email";
 	private final String MAX_EMAIL_LENGTH = "Your email is too long, we only support 200 characters";
-	private final String CONTENT_IS_EMPTY = "Please fill your contact's content";
+	private final String CONTENT_IS_EMPTY = "Please fill your feedback";
 	private final String MAX_CONTENT_LENGTH = "Your content is too long, we only support 500 characters";
 	private final String ERROR_MESSAGE = "Some problem occurs, please try again";
+	private final String SUCESSFUL_MESSAGE = "We received your feedback!!! Thank you.";
+	
 	
 	/**
 	 * 
@@ -35,33 +37,37 @@ public class FeedbackController extends HttpServlet  {
 
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		System.out.println("ContactController process");
+		System.out.println("FeedbackController GET process");
 		this.handleView(VIEW, request, response);
 	}
 	
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+		System.out.println("FeedbackController POST process");
 		String name = request.getParameter("name");
 		String email = request.getParameter("email");
 		String content = request.getParameter("content");
 		FeedbackModel model = this.composeFeedbackData(request, name, email, content);
 		
+		System.out.println("FeedbackController.doPost, model: " + model.toString() );
+		
 		try {
-			String errorMessage = "";
-			boolean isValid = validateContact(model, errorMessage);
-			model.setErrorMessage(errorMessage);
+			boolean isValid = validateContact(model);
+			
+			System.out.println("FeedbackController.doPost, isValid: " + isValid );
+			System.out.println("FeedbackController.doPost, errorMessage: " + model.getMessage() );
 			
 			if(isValid) {
-				ContactService.createContact(name, email, content);
+				ContactService.createFeedback(name, email, content);
 				model.setSuccess(true);
+				model.setMessage("");
 			} else {
 				model.setSuccess(false);
 			}
 			
 		} catch(Exception ex) {
 			model.setSuccess(false);
-			model.setErrorMessage(ERROR_MESSAGE);
+			model.setMessage(ERROR_MESSAGE);
 		}
 		
 		request.setAttribute(Constants.PARAM_MODEL, model);
@@ -73,31 +79,32 @@ public class FeedbackController extends HttpServlet  {
 		dispatcher.forward(request, response);
 	}
 	
-	private boolean validateContact(FeedbackModel model, String errorMessage) {
+	private boolean validateContact(FeedbackModel model) {
 		if(model.getName() == null || model.getName().isEmpty()) {
-			errorMessage = NAME_IS_EMPTY;
+			model.setMessage(NAME_IS_EMPTY);
 			return false;
 		} else if (model.getName().length() > 50) {
-			errorMessage = MAX_NAME_LENGTH;
+			model.setMessage(MAX_NAME_LENGTH);
 			return false;
 		}
 		
 		if(model.getEmail() == null || model.getEmail().isEmpty()) {
-			errorMessage = EMAIL_IS_EMPTY;
+			model.setMessage(EMAIL_IS_EMPTY);
 			return false;
 		} else if (model.getEmail().length() > 200) {
-			errorMessage = MAX_EMAIL_LENGTH;
+			model.setMessage(MAX_EMAIL_LENGTH);
 			return false;
 		}
 		
 		if(model.getContent() == null || model.getContent().isEmpty()) {
-			errorMessage = CONTENT_IS_EMPTY;
+			model.setMessage(CONTENT_IS_EMPTY);
 			return false;
 		} else if (model.getContent().length() > 500) {
-			errorMessage = MAX_CONTENT_LENGTH;
+			model.setMessage(MAX_CONTENT_LENGTH);
 			return false;
 		}
 		
+		model.setMessage(SUCESSFUL_MESSAGE);
 		return true;
 	}
 	
