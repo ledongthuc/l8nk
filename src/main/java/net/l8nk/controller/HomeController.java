@@ -28,7 +28,6 @@ import net.l8nk.viewmodel.HomeModel;
 public class HomeController extends HttpServlet {
 
 	public static final String VIEW = "/jsp/home.jsp";
-	private HomeModel model;
 	
 	/**
 	 * 
@@ -42,9 +41,9 @@ public class HomeController extends HttpServlet {
 		String userCookie = getUserCookie(request, response);
 		ArrayList<Link> recentLinks = LinkService.GetLinksByUserAgent(userCookie);
 		
-		this.model = new HomeModel();
-		this.model.setRecentLinks(recentLinks);
-		request.setAttribute(Constants.PARAM_MODEL, this.model);
+		HomeModel model = new HomeModel();
+		model.setRecentLinks(recentLinks);
+		request.setAttribute(Constants.PARAM_MODEL, model);
 		this.handleView(VIEW, request, response);
 	};
 	
@@ -56,7 +55,6 @@ public class HomeController extends HttpServlet {
 			return;
 		}
 		
-		this.model = new HomeModel();
 		String userCookie = this.getUserCookie(request, response);
 		
 		switch (action) {
@@ -71,9 +69,10 @@ public class HomeController extends HttpServlet {
 		dispatcher.forward(request, response);
 	}
 	
-	private void handleErrorMessage(String message, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+	private void handleErrorMessage(String message, HttpServletRequest request, HttpServletResponse response, ArrayList<Link> recentLinks) throws ServletException, IOException{
 		HomeModel model = new HomeModel();
 		model.setErrorMessage(message);
+		model.setRecentLinks(recentLinks);
 		
 		request.setAttribute(Constants.PARAM_MODEL, model);
 		this.handleView(VIEW, request, response);
@@ -104,20 +103,22 @@ public class HomeController extends HttpServlet {
 	
 	private void createLink(String userCookie, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {		
 		String longLink = request.getParameter("longLinkInput");
+		ArrayList<Link> recentLinks = LinkService.GetLinksByUserAgent(userCookie);
+		
 		if(longLink == null || longLink.isEmpty()) {
-			this.handleErrorMessage("We don't see your link, could you please check it again ?", request, response);
+			this.handleErrorMessage("We don't see your link, could you please check it again ?", request, response, recentLinks);
 			return;
 		}
 		
 		try {
 			Link linkModel = LinkService.CreateLink(longLink);
 			LinkService.saveLinkToUser(linkModel.getLinkId(), userCookie);
-			ArrayList<Link> recentLinks = LinkService.GetLinksByUserAgent(userCookie);
 			
-			this.model.setLink(linkModel);
-			this.model.setRecentLinks(recentLinks);
+			HomeModel model  = new HomeModel();
+			model.setLink(linkModel);
+			model.setRecentLinks(recentLinks);
 			
-			request.setAttribute(Constants.PARAM_MODEL, this.model);
+			request.setAttribute(Constants.PARAM_MODEL, model);
 			this.handleView(VIEW, request, response);
 			return;
 			
@@ -125,7 +126,7 @@ public class HomeController extends HttpServlet {
 			e.printStackTrace();
 		}
 		
-		this.handleErrorMessage("An exception occurs, please try again !!!", request, response);
+		this.handleErrorMessage("An exception occurs, please try again !!!", request, response, recentLinks);
 	}
 	
 	

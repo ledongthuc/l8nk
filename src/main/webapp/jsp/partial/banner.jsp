@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 <div class="header">
     <div class="container">
-        <a href="<%=request.getContextPath()%>/App/Home">
+        <a href="<%=request.getContextPath()%>/">
             <img src="<%=request.getContextPath()%>/img/logo.png" class="img-responsive logo" alt="L8nk">
         </a>
     </div>

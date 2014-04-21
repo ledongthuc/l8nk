@@ -55,7 +55,7 @@ public class RootFilter implements Filter {
 		}
 		
 		if(servletPath.startsWith("/App/")) {
-			System.out.println("Root Filter - home page");
+			System.out.println("Root Filter - App");
 			chain.doFilter(httpRequest, response);
 			return;
 		}

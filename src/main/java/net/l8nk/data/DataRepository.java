@@ -19,4 +19,11 @@ public class DataRepository {
 		return domainData;
 	}
 	
+	private static ContactData contactData;
+	public static ContactData getContactData() {
+		if(contactData == null) {
+			contactData = new ContactData();
+		}
+		return contactData;
+	}
 }
