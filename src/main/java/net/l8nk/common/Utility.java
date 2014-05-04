@@ -1,11 +1,27 @@
 package net.l8nk.common;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.URL;
 import java.security.MessageDigest;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import net.l8nk.controller.ShortLinkController;
+
+import org.apache.log4j.Logger;
+
+import com.sun.org.apache.xerces.internal.impl.xpath.regex.RegularExpression;
+
+import sun.text.ComposedCharIter;
 
 public class Utility {
+
+	static Logger logger = Logger.getLogger(ShortLinkController.class);
 	
 	public static String formatUrl(String rawUrl) {
 		if(rawUrl == null || rawUrl.isEmpty()) {
@@ -77,5 +93,53 @@ public class Utility {
 		}
 		
 		return df.format(date);
+	}
+	
+	public static String getTextFromUrl(String link) throws IOException {
+		StringBuilder composer = new StringBuilder();
+		BufferedReader reader = null;
+		try {
+			URL url = new URL(link);
+			reader = new BufferedReader(new InputStreamReader(url.openStream()));
+			
+			String inputLine;
+	        while ((inputLine = reader.readLine()) != null) {
+	        	composer.append(inputLine);
+	        }
+	        reader.close();
+		} catch(Exception ex) {} finally {
+			if(reader != null) {
+				reader.close();
+			}
+		}
+		
+		return composer.toString();
+	}
+	
+	public static String fillDomainToRelativeLink(String longLink, String rawData) {
+		try {
+			
+			logger.debug("Utility.fillDomainToRelativeLink, rawData:" + rawData);
+			
+			URL url = new URL(longLink);
+			String domain = url.getHost() + ":" + url.getPort();
+			
+			logger.debug("Utility.fillDomainToRelativeLink, domain:" + domain);
+			
+			Pattern pattern = Pattern.compile("<img [^>]*");
+		    Matcher matcher = pattern.matcher(rawData);
+		    while(matcher.find()) {
+		    	logger.debug("Utility.fillDomainToRelativeLink, StartGroup: " + matcher.start() + ", EndGroup:" + matcher.end());
+		    	logger.debug("Utility.fillDomainToRelativeLink, Group: " + matcher.group());
+		    	
+		    	String img = matcher.group();
+		    	img.indexOf("src=\"");
+		    }
+			
+		} catch(Exception ex) {
+			
+		}
+		
+		return rawData;
 	}
 }

@@ -12,6 +12,8 @@ import java.sql.SQLException;
 import java.sql.Types;
 import java.util.ArrayList;
 
+import org.apache.log4j.Logger;
+
 import net.l8nk.common.L8nkEncoding;
 import net.l8nk.entity.Link;
 
@@ -23,10 +25,13 @@ import net.l8nk.entity.Link;
  */
 public class LinkData extends DataProviderBase<Link> {
 	
-	public Link insertIfNotExist(Link link) {
+	static Logger logger = Logger.getLogger(LinkData.class);
+	
+	public Link insertIfNotExist(Link link) throws SQLException {
+		Connection connection = null;
 		
 		try {
-			Connection connection = DataConnection.getConnection();
+			connection = DataConnection.getConnection();
 			
 			CallableStatement statement = connection.prepareCall("call Link_InsertIfNotExist(?, ?, ?, ?, ?, ?)");
 			statement.setString(1, link.getLongLink());
@@ -39,7 +44,7 @@ public class LinkData extends DataProviderBase<Link> {
 			ResultSet resultSet = statement.executeQuery();
 			ArrayList<Link> links = fillData(resultSet);
 			
-			System.out.println("Thuc links length: " + links.size());
+			logger.info("Thuc links length: " + links.size());
 			
 			if(links.isEmpty()) {
 				link.setLinkId(NULL_ID);
@@ -47,12 +52,16 @@ public class LinkData extends DataProviderBase<Link> {
 				link = links.get(0);
 			}
 			
-			System.out.println("Thuc links link id: " + link.getLinkId());
-			System.out.println("Thuc links getLongLink: " + link.getLongLink());
+			logger.info("Thuc links link id: " + link.getLinkId());
+			logger.info("Thuc links getLongLink: " + link.getLongLink());
 			
 		} catch (Exception e) {
 			e.printStackTrace();
 			link.setLinkId(NULL_ID);
+		} finally {
+			if(connection != null && !connection.isClosed()) {
+				connection.close();
+			}
 		}
 		
 		return link;
@@ -92,9 +101,10 @@ public class LinkData extends DataProviderBase<Link> {
 		return links;
 	}
 	
-	public Link getLinkById(long linkId) {
+	public Link getLinkById(long linkId) throws SQLException {
+		Connection connection = null;
 		try {
-			Connection connection = DataConnection.getConnection();
+			connection = DataConnection.getConnection();
 			
 			CallableStatement statement = connection.prepareCall("call Link_GetById(?)");
 			statement.setObject(1, linkId, Types.BIGINT);
@@ -108,14 +118,19 @@ public class LinkData extends DataProviderBase<Link> {
 			
 		} catch (Exception e) {
 			e.printStackTrace();
+		} finally {
+			if(connection != null && !connection.isClosed()) {
+				connection.close();
+			}
 		}
 		
 		return null;
 	}
 	
-	public static String getLinksByUserId() {
+	public static String getLinksByUserId() throws SQLException {
+		Connection connection = null;
 		try {
-			Connection connection = DataConnection.getConnection();
+			connection = DataConnection.getConnection();
 			PreparedStatement statmement = connection.prepareStatement("");
 			ResultSet rs = statmement.executeQuery("select * from `link`");
 			String longLink = "";
@@ -128,14 +143,19 @@ public class LinkData extends DataProviderBase<Link> {
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} finally {
+			if(connection != null && !connection.isClosed()) {
+				connection.close();
+			}
 		}
 		
 		return "";
 	}
 	
-	public ArrayList<Link> getByUserAgent(String userAgent) {
+	public ArrayList<Link> getByUserAgent(String userAgent) throws SQLException {
+		Connection connection = null;
 		try {
-			Connection connection = DataConnection.getConnection();
+			connection = DataConnection.getConnection();
 			
 			PreparedStatement statement = connection.prepareStatement("select link.* from `link`, `linkowner` "
 															+ "where link.linkId = linkowner.linkId "
@@ -149,14 +169,19 @@ public class LinkData extends DataProviderBase<Link> {
 			
 		} catch (Exception e) {
 			e.printStackTrace();
+		} finally {
+			if(connection != null && !connection.isClosed()) {
+				connection.close();
+			}
 		}
 		
 		return null;
 	}
 	
-	public void saveLinkToUser(long linkId, String userAgent) {
+	public void saveLinkToUser(long linkId, String userAgent) throws SQLException {
+		Connection connection = null;
 		try {
-			Connection connection = DataConnection.getConnection();
+			connection = DataConnection.getConnection();
 			
 			PreparedStatement statement = connection.prepareStatement("INSERT IGNORE INTO `linkowner` SET `linkId` = ?, `userAgent` = ?;");
 			statement.setObject(1, linkId, Types.BIGINT);
@@ -164,18 +189,45 @@ public class LinkData extends DataProviderBase<Link> {
 			statement.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();
+		} finally {
+			if(connection != null && !connection.isClosed()) {
+				connection.close();
+			}
 		}
 	}
 	
-	public void increaseCounter(long linkId) {
+	public void increaseCounter(long linkId) throws SQLException {
+		Connection connection = null;
 		try {
-			Connection connection = DataConnection.getConnection();
+			connection = DataConnection.getConnection();
 			
 			PreparedStatement statement = connection.prepareStatement("UPDATE `link` SET `clicks` = `clicks` + 1 WHERE linkId = ?");
 			statement.setObject(1, linkId, Types.BIGINT);
 			statement.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();
+		} finally {
+			if(connection != null && !connection.isClosed()) {
+				connection.close();
+			}
+		}
+	}
+	
+	public void logRequest(String userAgent, long linkId) throws SQLException {
+		Connection connection = null;
+		try {
+			connection = DataConnection.getConnection();
+			
+			PreparedStatement statement = connection.prepareStatement("INSERT INTO `request` (`userAgent`, `requestDate`, `linkId`) VALUES (?, NOW(), ?);");
+			statement.setString(1, userAgent);
+			statement.setObject(2, linkId, Types.BIGINT);
+			statement.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if(connection != null && !connection.isClosed()) {
+				connection.close();
+			}
 		}
 	}
 }

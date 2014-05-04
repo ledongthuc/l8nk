@@ -15,8 +15,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
+
 import net.l8nk.common.Constants;
 import net.l8nk.entity.Link;
+import net.l8nk.filter.RootFilter;
 import net.l8nk.service.LinkService;
 import net.l8nk.viewmodel.HomeModel;
 
@@ -25,8 +28,10 @@ import net.l8nk.viewmodel.HomeModel;
  *
  */
 @WebServlet(name="HomeController", urlPatterns="/App/Home")
-public class HomeController extends HttpServlet {
+public class HomeController extends HttpBasedController {
 
+	static Logger logger = Logger.getLogger(HomeController.class);
+	
 	public static final String VIEW = "/jsp/home.jsp";
 	
 	/**
@@ -36,7 +41,7 @@ public class HomeController extends HttpServlet {
 
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException ,IOException {
-		System.out.println("HomeController process");
+		logger.info("HomeController.doGet, begin process");
 		
 		String userCookie = getUserCookie(request, response);
 		ArrayList<Link> recentLinks = LinkService.GetLinksByUserAgent(userCookie);
@@ -44,6 +49,8 @@ public class HomeController extends HttpServlet {
 		HomeModel model = new HomeModel();
 		model.setRecentLinks(recentLinks);
 		request.setAttribute(Constants.PARAM_MODEL, model);
+		
+		logger.info("HomeController.doGet, begin return view: " + VIEW);
 		this.handleView(VIEW, request, response);
 	};
 	
@@ -62,11 +69,6 @@ public class HomeController extends HttpServlet {
 				this.createLink(userCookie, request, response);
 				break;
 		}
-	}
-	
-	private void handleView(String viewName, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		RequestDispatcher dispatcher = request.getRequestDispatcher(VIEW);
-		dispatcher.forward(request, response);
 	}
 	
 	private void handleErrorMessage(String message, HttpServletRequest request, HttpServletResponse response, ArrayList<Link> recentLinks) throws ServletException, IOException{
@@ -97,6 +99,8 @@ public class HomeController extends HttpServlet {
 			userCookie.setMaxAge(Integer.MAX_VALUE);
 			response.addCookie(userCookie);
 		}
+		
+		logger.info("HomeController.getUserCookie, userId:" + userId);
 		
 		return userId;
 	}

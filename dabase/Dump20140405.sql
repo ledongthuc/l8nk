@@ -1,7 +1,7 @@
 -- --------------------------------------------------------
--- Host:                         127.0.0.1
--- Server version:               5.5.5-10.0.10-MariaDB - mariadb.org binary distribution
--- Server OS:                    Win64
+-- Host:                         l8nk.net
+-- Server version:               5.5.36-MariaDB-log - MariaDB Server
+-- Server OS:                    Linux
 -- HeidiSQL Version:             8.1.0.4545
 -- --------------------------------------------------------
 
@@ -11,7 +11,7 @@
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 
 -- Dumping database structure for l8nk
-CREATE DATABASE IF NOT EXISTS `l8nk` /*!40100 DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci */;
+CREATE DATABASE IF NOT EXISTS `l8nk` /*!40100 DEFAULT CHARACTER SET utf8 */;
 USE `l8nk`;
 
 
@@ -21,15 +21,18 @@ CREATE TABLE IF NOT EXISTS `domain` (
   `value` varchar(200) COLLATE utf8_unicode_ci NOT NULL DEFAULT '0',
   PRIMARY KEY (`domainId`),
   UNIQUE KEY `value` (`value`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- Data exporting was unselected.
+
 
 -- Dumping structure for procedure l8nk.Domain_InsertIfNotExist
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `Domain_InsertIfNotExist`(domainValue VARCHAR(200))
+CREATE DEFINER=`root`@`localhost` PROCEDURE `Domain_InsertIfNotExist`(IN `domainValue` VARCHAR(200))
 BEGIN
 
-	INSERT IGNORE INTO `domain` SET `value` = domainValue;
-	SELECT * FROM `domain` WHERE `value` = domainValue;
+	INSERT IGNORE INTO `domain` SET `value` = domainValue  COLLATE utf8_unicode_ci;
+	SELECT * FROM `domain` WHERE `value` = domainValue  COLLATE utf8_unicode_ci;
 
 END//
 DELIMITER ;
@@ -42,7 +45,10 @@ CREATE TABLE IF NOT EXISTS `feedback` (
   `email` varchar(200) COLLATE utf8_unicode_ci NOT NULL DEFAULT '0',
   `content` varchar(500) COLLATE utf8_unicode_ci NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- Data exporting was unselected.
+
 
 -- Dumping structure for table l8nk.link
 CREATE TABLE IF NOT EXISTS `link` (
@@ -56,7 +62,10 @@ CREATE TABLE IF NOT EXISTS `link` (
   `hashLink` varchar(32) COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`linkId`),
   UNIQUE KEY `hashLink_UNIQUE` (`hashLink`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- Data exporting was unselected.
+
 
 -- Dumping structure for table l8nk.linkowner
 CREATE TABLE IF NOT EXISTS `linkowner` (
@@ -68,7 +77,9 @@ CREATE TABLE IF NOT EXISTS `linkowner` (
   KEY `fk_userContain_link_idx` (`linkId`),
   KEY `index3` (`userAgent`),
   CONSTRAINT `fk_userContain_link` FOREIGN KEY (`linkId`) REFERENCES `link` (`linkId`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- Data exporting was unselected.
 
 
 -- Dumping structure for procedure l8nk.Link_GetById
@@ -88,7 +99,7 @@ DELIMITER ;
 
 -- Dumping structure for procedure l8nk.Link_InsertIfNotExist
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `Link_InsertIfNotExist`(pLongLink VARCHAR(2048), pDomainId int, pClicks int, pCreatedDate datetime, pDescription VARCHAR(100), pHashLink VARCHAR(32))
+CREATE DEFINER=`root`@`localhost` PROCEDURE `Link_InsertIfNotExist`(IN `pLongLink` VARCHAR(2048), IN `pDomainId` int, IN `pClicks` int, IN `pCreatedDate` datetime, IN `pDescription` VARCHAR(100), IN `pHashLink` VARCHAR(32))
 BEGIN
 
 	INSERT IGNORE INTO 
@@ -100,7 +111,7 @@ BEGIN
 		`createdDate` = pCreatedDate, 
 		`description` = pDescription, 
 		`hashLink` = pHashLink;
-	SELECT * FROM `link` WHERE `hashLink` = pHashLink;
+	SELECT * FROM `link` WHERE `hashLink` = pHashLink  COLLATE utf8_unicode_ci;
 
 END//
 DELIMITER ;
@@ -108,19 +119,16 @@ DELIMITER ;
 
 -- Dumping structure for table l8nk.request
 CREATE TABLE IF NOT EXISTS `request` (
-  `requestId` int(11) NOT NULL,
-  `userId` int(11) DEFAULT NULL,
+  `requestId` int(11) NOT NULL AUTO_INCREMENT,
+  `userAgent` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `requestDate` datetime DEFAULT NULL,
   `linkId` int(11) DEFAULT NULL,
   PRIMARY KEY (`requestId`),
-  KEY `FK_request_user` (`userId`),
   KEY `FK_request_link` (`linkId`),
-  CONSTRAINT `FK_request_link` FOREIGN KEY (`linkId`) REFERENCES `link` (`linkId`),
-  CONSTRAINT `FK_request_user` FOREIGN KEY (`userId`) REFERENCES `user` (`userId`)
+  CONSTRAINT `FK_request_link` FOREIGN KEY (`linkId`) REFERENCES `link` (`linkId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
--- Dumping data for table l8nk.request: ~0 rows (approximately)
-/*!40000 ALTER TABLE `request` DISABLE KEYS */;
-/*!40000 ALTER TABLE `request` ENABLE KEYS */;
+-- Data exporting was unselected.
 
 
 -- Dumping structure for table l8nk.user
@@ -132,9 +140,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   UNIQUE KEY `cookieId_UNIQUE` (`cookieId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
--- Dumping data for table l8nk.user: ~0 rows (approximately)
-/*!40000 ALTER TABLE `user` DISABLE KEYS */;
-/*!40000 ALTER TABLE `user` ENABLE KEYS */;
+-- Data exporting was unselected.
 
 
 -- Dumping structure for procedure l8nk.User_InsertUser

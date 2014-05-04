@@ -6,6 +6,8 @@ package net.l8nk.service;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import org.apache.log4j.Logger;
+
 import net.l8nk.data.DataRepository;
 import net.l8nk.entity.Domain;
 
@@ -15,13 +17,19 @@ import net.l8nk.entity.Domain;
  */
 public class DomainService {
 
+	static Logger logger = Logger.getLogger(DomainService.class);
 	public static final String SCHEMA_SEPERATOR = "://";
 	
 	public static Domain createDomain(String domainValue) {
-		Domain result = new Domain();
-		result.setValue(domainValue);		
-		result = DataRepository.getDomainData().insertIfNotExist(result);
-		return result;
+		try {
+			Domain result = new Domain();
+			result.setValue(domainValue);		
+			result = DataRepository.getDomainData().insertIfNotExist(result);
+			return result;
+		} catch(Exception ex) {
+			logger.error("DomainService.createDomain", ex);
+		}
+		return null;
 	}
 	
 	public static Domain createDomain(String schema, String host) {

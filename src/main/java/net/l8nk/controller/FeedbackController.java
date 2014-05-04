@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
+
 import net.l8nk.common.Constants;
 import net.l8nk.entity.Link;
 import net.l8nk.service.ContactService;
@@ -17,8 +19,10 @@ import net.l8nk.viewmodel.FeedbackModel;
 import net.l8nk.viewmodel.HomeModel;
 
 @WebServlet(name="FeedbackController", urlPatterns="/App/Feedback")
-public class FeedbackController extends HttpServlet  {
+public class FeedbackController extends HttpBasedController  {
 
+	static Logger logger = Logger.getLogger(FeedbackController.class);
+	
 	public static final String VIEW = "/jsp/feedback.jsp";
 	private final String NAME_IS_EMPTY = "Please fill your name";
 	private final String MAX_NAME_LENGTH = "Your name is too long, we only support 50 characters";
@@ -37,25 +41,25 @@ public class FeedbackController extends HttpServlet  {
 
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		System.out.println("FeedbackController GET process");
+		logger.info("FeedbackController GET process");
 		this.handleView(VIEW, request, response);
 	}
 	
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		System.out.println("FeedbackController POST process");
+		logger.info("FeedbackController POST process");
 		String name = request.getParameter("name");
 		String email = request.getParameter("email");
 		String content = request.getParameter("content");
 		FeedbackModel model = this.composeFeedbackData(request, name, email, content);
 		
-		System.out.println("FeedbackController.doPost, model: " + model.toString() );
+		logger.info("FeedbackController.doPost, model: " + model.toString() );
 		
 		try {
 			boolean isValid = validateContact(model);
 			
-			System.out.println("FeedbackController.doPost, isValid: " + isValid );
-			System.out.println("FeedbackController.doPost, errorMessage: " + model.getMessage() );
+			logger.info("FeedbackController.doPost, isValid: " + isValid );
+			logger.info("FeedbackController.doPost, errorMessage: " + model.getMessage() );
 			
 			if(isValid) {
 				ContactService.createFeedback(name, email, content);
@@ -72,11 +76,6 @@ public class FeedbackController extends HttpServlet  {
 		
 		request.setAttribute(Constants.PARAM_MODEL, model);
 		this.doGet(request, response);
-	}
-	
-	private void handleView(String viewName, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		RequestDispatcher dispatcher = request.getRequestDispatcher(VIEW);
-		dispatcher.forward(request, response);
 	}
 	
 	private boolean validateContact(FeedbackModel model) {

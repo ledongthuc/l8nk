@@ -15,6 +15,8 @@ import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.log4j.Logger;
+
 /**
  * @author thuc.le
  *
@@ -22,9 +24,12 @@ import javax.servlet.http.HttpServletRequest;
 @WebFilter(urlPatterns="/*")
 public class RootFilter implements Filter {
 
+	static Logger logger = Logger.getLogger(RootFilter.class);
+	
 	public final String[] resources = new String[]{
 			".css", ".js", ".ico",
-			".png", ".jpg", ".gif"
+			".png", ".jpg", ".gif",
+			".jsp"
 	};
 	
 	/* (non-Javadoc)
@@ -41,35 +46,35 @@ public class RootFilter implements Filter {
 	 */
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-		System.out.println("Root Filter - begin filter");
+		logger.info("RootFilter.doFilter, begin filter");
 		HttpServletRequest httpRequest = (HttpServletRequest) request;
 		String servletPath = httpRequest.getServletPath();
-		System.out.println("Root Filter - servlet path:" + servletPath);
+		logger.info("RootFilter.doFilter, servlet path:" + servletPath);
 		
 		for (String resource : resources) {
 			if(servletPath.endsWith(resource)) {
-				System.out.println("Root Filter - is resource: true" + resource);
+				logger.info("RootFilter.doFilter, is resource: true" + resource);
 				chain.doFilter(httpRequest, response);
 				return;
 			}
 		}
 		
 		if(servletPath.startsWith("/App/")) {
-			System.out.println("Root Filter - App");
+			logger.info("RootFilter.doFilter, App");
 			chain.doFilter(httpRequest, response);
 			return;
 		}
 		
 		String newPath = null;
 		if(servletPath.equals("/")) {
-			System.out.println("Root Filter - home page");
+			logger.info("RootFilter.doFilter, home page");
 			newPath = "/App/Home";
 		} else {
-			System.out.println("Root Filter - short link page");
+			logger.info("RootFilter.doFilter, short link page");
 			newPath = "/ShortLink" + servletPath;
 		}
 
-		System.out.println("Root Filter - new path:" + newPath);
+		logger.info("RootFilter.doFilter, new path:" + newPath);
 		httpRequest.getRequestDispatcher(newPath).forward(httpRequest, response);
 	}
 
