@@ -29,7 +29,7 @@ public class RootFilter implements Filter {
 	public final String[] resources = new String[]{
 			".css", ".js", ".ico",
 			".png", ".jpg", ".gif",
-			".jsp"
+			".jsp", ".html"
 	};
 	
 	/* (non-Javadoc)
