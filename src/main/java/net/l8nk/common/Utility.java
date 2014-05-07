@@ -15,10 +15,6 @@ import net.l8nk.controller.ShortLinkController;
 
 import org.apache.log4j.Logger;
 
-import com.sun.org.apache.xerces.internal.impl.xpath.regex.RegularExpression;
-
-import sun.text.ComposedCharIter;
-
 public class Utility {
 
 	static Logger logger = Logger.getLogger(ShortLinkController.class);
@@ -117,6 +113,11 @@ public class Utility {
 	}
 	
 	public static String fillDomainToRelativeLink(String longLink, String rawData) {
+		
+		String srcImage = "src=\"";
+		String http = "http";
+		StringBuilder resultBuilder = new StringBuilder();
+		
 		try {
 			
 			logger.debug("Utility.fillDomainToRelativeLink, rawData:" + rawData);
@@ -128,18 +129,35 @@ public class Utility {
 			
 			Pattern pattern = Pattern.compile("<img [^>]*");
 		    Matcher matcher = pattern.matcher(rawData);
+		    int nextIndex = 0; 
 		    while(matcher.find()) {
 		    	logger.debug("Utility.fillDomainToRelativeLink, StartGroup: " + matcher.start() + ", EndGroup:" + matcher.end());
 		    	logger.debug("Utility.fillDomainToRelativeLink, Group: " + matcher.group());
 		    	
 		    	String img = matcher.group();
-		    	img.indexOf("src=\"");
+		    	int srcIndex = img.indexOf(srcImage);
+		    	if(srcIndex == -1) {
+		    		break;
+		    	}
+		    	
+		    	int startIndexHttp = srcIndex + srcImage.length();
+		    	int endIndexHttp = startIndexHttp + http.length();
+		    	String checkedHttpPart = rawData.substring(startIndexHttp, endIndexHttp);
+		    	if(checkedHttpPart.equals(http)) {
+		    		continue;
+		    	}
+		    	
+		    	resultBuilder.append(rawData.substring(nextIndex, startIndexHttp));
+		    	resultBuilder.append(http.length());
+		    	nextIndex = startIndexHttp;
 		    }
+		    
+		    resultBuilder.append(rawData.substring(nextIndex, rawData.length()));
 			
 		} catch(Exception ex) {
-			
+			logger.error(ex);
 		}
 		
-		return rawData;
+		return resultBuilder.toString();
 	}
 }
