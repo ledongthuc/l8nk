@@ -24,7 +24,7 @@ public class Utility {
 			return "";
 		}
 		
-		rawUrl = rawUrl.toLowerCase();
+		//rawUrl = rawUrl.toLowerCase();
 		
 		if(!rawUrl.startsWith("http")) {
 			rawUrl = "http://" + rawUrl;
@@ -112,24 +112,50 @@ public class Utility {
 		return composer.toString();
 	}
 	
+	public static String getHostWithPort(String link) {
+		String result = "";
+		try {
+			
+			URL url = new URL(link);
+			
+			result = url.getHost();
+			
+			int port = url.getPort();
+			if(port != -1) {
+				result += ":" + url.getPort();
+			}
+			
+			String protocol = url.getProtocol();
+			if(protocol != null && !protocol.isEmpty()) {
+				result = protocol + "://" + result;
+			}
+			
+		} catch(Exception ex) {
+			logger.error(ex);
+		}
+		
+		return result;
+	}
+	
 	public static String fillDomainToRelativeLink(String longLink, String rawData) {
 		
 		String srcImage = "src=\"";
-		String http = "http";
 		StringBuilder resultBuilder = new StringBuilder();
+		String domain = Utility.getHostWithPort(longLink);
+		
+		if(domain.isEmpty()) {
+			return rawData;
+		}
 		
 		try {
 			
 			logger.debug("Utility.fillDomainToRelativeLink, rawData:" + rawData);
-			
-			URL url = new URL(longLink);
-			String domain = url.getHost() + ":" + url.getPort();
-			
 			logger.debug("Utility.fillDomainToRelativeLink, domain:" + domain);
 			
 			Pattern pattern = Pattern.compile("<img [^>]*");
 		    Matcher matcher = pattern.matcher(rawData);
 		    int nextIndex = 0; 
+		    
 		    while(matcher.find()) {
 		    	logger.debug("Utility.fillDomainToRelativeLink, StartGroup: " + matcher.start() + ", EndGroup:" + matcher.end());
 		    	logger.debug("Utility.fillDomainToRelativeLink, Group: " + matcher.group());
@@ -140,19 +166,19 @@ public class Utility {
 		    		break;
 		    	}
 		    	
-		    	int startIndexHttp = srcIndex + srcImage.length();
-		    	int endIndexHttp = startIndexHttp + http.length();
-		    	String checkedHttpPart = rawData.substring(startIndexHttp, endIndexHttp);
-		    	if(checkedHttpPart.equals(http)) {
+		    	int startIndexHttp = matcher.start() + srcIndex + srcImage.length();
+		    	String checkedHttpPart = rawData.substring(startIndexHttp);
+		    	if(checkedHttpPart.startsWith(domain)) {
 		    		continue;
 		    	}
 		    	
 		    	resultBuilder.append(rawData.substring(nextIndex, startIndexHttp));
-		    	resultBuilder.append(http.length());
+		    	resultBuilder.append(domain);
+		    	resultBuilder.append("/");
 		    	nextIndex = startIndexHttp;
 		    }
 		    
-		    resultBuilder.append(rawData.substring(nextIndex, rawData.length()));
+		    resultBuilder.append(rawData.substring(nextIndex));
 			
 		} catch(Exception ex) {
 			logger.error(ex);
