@@ -59,7 +59,8 @@ public class RootFilter implements Filter {
 			}
 		}
 		
-		if(servletPath.startsWith("/App/")) {
+		if(servletPath.startsWith("/App/") || 
+		   servletPath.startsWith("/Api/")) {
 			logger.info("RootFilter.doFilter, App");
 			chain.doFilter(httpRequest, response);
 			return;

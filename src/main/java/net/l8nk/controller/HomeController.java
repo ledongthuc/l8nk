@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 
 import net.l8nk.common.Constants;
+import net.l8nk.common.Utility;
 import net.l8nk.entity.Link;
 import net.l8nk.filter.RootFilter;
 import net.l8nk.service.LinkService;
@@ -33,6 +34,8 @@ public class HomeController extends HttpBasedController {
 	static Logger logger = Logger.getLogger(HomeController.class);
 	
 	public static final String VIEW = "/jsp/home.jsp";
+	public static final int qrImageWidth = 300;
+	public static final int qrImageHeigh = 300;
 	
 	/**
 	 * 
@@ -120,8 +123,11 @@ public class HomeController extends HttpBasedController {
 			
 			HomeModel model  = new HomeModel();
 			model.setLink(linkModel);
+			
 			ArrayList<Link> recentLinks = LinkService.GetLinksByUserAgent(userCookie);
 			model.setRecentLinks(recentLinks);
+			
+			String qrUrl = Utility.composeQrUrl(linkModel.getShortLink(), qrImageWidth, qrImageHeigh);
 			
 			request.setAttribute(Constants.PARAM_MODEL, model);
 			this.handleView(VIEW, request, response);

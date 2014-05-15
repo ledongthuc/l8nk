@@ -10,6 +10,8 @@ repositories {
 dependencies {
     providedCompile 'javax.servlet:javax.servlet-api:3.0.1'
     providedCompile 'log4j:log4j:1.2.17'
+    compile 'com.google.zxing:core:3.0.0'
+    compile 'net.glxn:qrgen:1.4'
     runtime 'javax.servlet:jstl:1.1.2' 
     testCompile 'junit:junit:4.11'
 }

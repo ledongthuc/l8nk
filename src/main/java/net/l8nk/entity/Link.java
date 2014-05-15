@@ -23,6 +23,7 @@ public class Link {
 	private String description;
 	private String hashLink;
 	
+	
 	public String getShortLink() {
 		return Utility.buildShortUrl(encodedPart);
 	}

@@ -16,6 +16,8 @@ public class HomeModel {
 	private ArrayList<Link> recentLinks;
 	private ArrayList<Link> usersLinks;
 	private String errorMessage;
+	private String qrUrl;
+	private boolean isHasQr;
 
 	public Link getLink() {
 		return link;
@@ -77,6 +79,22 @@ public class HomeModel {
 
 	public void setRecentLinks(ArrayList<Link> recentLinks) {
 		this.recentLinks = recentLinks;
+	}
+
+	public String getQrUrl() {
+		return qrUrl;
+	}
+
+	public void setQrUrl(String qrUrl) {
+		this.qrUrl = qrUrl;
+	}
+
+	public boolean isHasQr() {
+		if(qrUrl == null || qrUrl.isEmpty()) {
+			return false;
+		}
+		
+		return true;
 	}
 	
 	

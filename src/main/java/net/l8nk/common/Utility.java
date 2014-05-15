@@ -186,4 +186,14 @@ public class Utility {
 		
 		return resultBuilder.toString();
 	}
+	
+	public static boolean isNumeric(String str)
+	{
+		return str.matches("^\\d+$");  //match a number with optional '-' and decimal.
+	}
+
+	public static String composeQrUrl(String shortLink, int qrimagewidth,
+			int qrimageheigh) {
+		
+	}
 }

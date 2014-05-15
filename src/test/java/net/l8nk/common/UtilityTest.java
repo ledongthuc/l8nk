@@ -31,4 +31,12 @@ public class UtilityTest {
 		assertEquals("<img src=\"http://thuc.com.vn/gamevn.img\" /><img src=\"http://thuc.com.vn/gamevn.img\" /><img src=\"http://thuc.com.vn/gamevn.img\" />", Utility.fillDomainToRelativeLink("http://thuc.com.vn", "<img src=\"gamevn.img\" /><img src=\"gamevn.img\" /><img src=\"gamevn.img\" />"));
 	}
 	
+	public void testIsNumeric() {
+		assertEquals(true, Utility.isNumeric("1"));
+		assertEquals(false, Utility.isNumeric(""));
+		assertEquals(false, Utility.isNumeric(null));
+		assertEquals(true, Utility.isNumeric("123"));
+		assertEquals(false, Utility.isNumeric("123a"));
+		assertEquals(false, Utility.isNumeric("123aa123"));
+	}
 }
