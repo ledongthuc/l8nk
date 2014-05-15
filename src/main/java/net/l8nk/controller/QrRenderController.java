@@ -17,7 +17,7 @@ import net.glxn.qrgen.QRCode;
 import net.l8nk.common.Constants;
 import net.l8nk.common.Utility;
 
-@WebServlet(name="QrRenderController", urlPatterns="/Api/QrRender")
+@WebServlet(name="QrRenderController", urlPatterns="/api/QrRender")
 public class QrRenderController extends HttpServlet  {
 
 	static Logger logger = Logger.getLogger(QrRenderController.class);
