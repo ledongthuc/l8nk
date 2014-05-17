@@ -57,7 +57,12 @@
             %>
             
             <div class="row your-links">
+            
+            	<% if(model.isHasQr()) { %>
+            	<div class="col-md-8">
+            	<% } else { %>
                 <div class="col-md-12">
+                <% } %>
                     
                     <table class="table table-hover">
                         <tr>
@@ -106,7 +111,14 @@
                         <% } %>
                         </table>
                         </div>
-                        </div>
+                        
+                        <% if(model.isHasQr()) { %>
+                        	<div class="col-md-4">
+                        		<img width="100%" alt="QR image" title="QR Image" src="<%= model.getQrUrl() %>"/>
+                        	</div>
+                        <% } %>
+                        
+                </div>
             <%
             }
             %>

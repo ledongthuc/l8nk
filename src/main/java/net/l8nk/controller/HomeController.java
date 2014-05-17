@@ -127,8 +127,10 @@ public class HomeController extends HttpBasedController {
 			
 			ArrayList<Link> recentLinks = LinkService.GetLinksByUserAgent(userCookie);
 			model.setRecentLinks(recentLinks);
+			logger.info("HomeController.doPost, recentLinks.size = " + recentLinks.size());
 			
 			String qrUrl = Utility.composeQrUrl(linkModel.getShortLink(), qrImageWidth, qrImageHeigh);
+			model.setQrUrl(qrUrl);
 			
 			request.setAttribute(Constants.PARAM_MODEL, model);
 			this.handleView(VIEW, request, response, Page.home);

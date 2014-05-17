@@ -192,8 +192,7 @@ public class Utility {
 		return str.matches("^\\d+$");  //match a number with optional '-' and decimal.
 	}
 
-	public static String composeQrUrl(String shortLink, int qrimagewidth,
-			int qrimageheigh) {
-		
+	public static String composeQrUrl(String shortLink, int qrImageWidth, int qrImageHeigh) {
+		return String.format(Constants.QR_IMAGE_LINK_PATTERN, shortLink, qrImageWidth, qrImageHeigh);
 	}
 }
