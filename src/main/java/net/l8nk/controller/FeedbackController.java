@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 
 import net.l8nk.common.Constants;
+import net.l8nk.common.Page;
 import net.l8nk.entity.Link;
 import net.l8nk.service.ContactService;
 import net.l8nk.viewmodel.FeedbackModel;
@@ -42,7 +43,7 @@ public class FeedbackController extends HttpBasedController  {
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		logger.info("FeedbackController GET process");
-		this.handleView(VIEW, request, response);
+		this.handleView(VIEW, request, response, Page.feedback);
 	}
 	
 	@Override
@@ -63,8 +64,9 @@ public class FeedbackController extends HttpBasedController  {
 			
 			if(isValid) {
 				ContactService.createFeedback(name, email, content);
+				model.clearContent();
 				model.setSuccess(true);
-				model.setMessage("");
+				model.setMessage("Thanks for your feedback!");
 			} else {
 				model.setSuccess(false);
 			}

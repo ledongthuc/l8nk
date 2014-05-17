@@ -67,4 +67,9 @@ public class FeedbackModel {
 		// TODO Auto-generated method stub
 		return String.format("Name: %s, Email: %s, Content: %s",  this.getName(), this.getEmail(), this.getContent());
 	}
+
+	public void clearContent() {
+		// TODO Auto-generated method stub
+		this.content = "";
+	}
 }

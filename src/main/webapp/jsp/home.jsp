@@ -116,7 +116,9 @@
         </div>
     </div>
    
-   <jsp:include page="partial/footer.jsp"></jsp:include>
+   <jsp:include page="partial/footer.jsp">
+   	<jsp:param value="selected" name="home"/>
+   </jsp:include>
 	
 	  <% if(model.isGeneratedLink()) { %>
     <script >

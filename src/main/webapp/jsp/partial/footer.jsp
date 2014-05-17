@@ -1,18 +1,27 @@
+<%@page import="net.l8nk.common.Constants"%>
+<%@page import="net.l8nk.common.Page"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<% Page pageName = (Page) request.getAttribute(Constants.PARAM_PAGE); %>
 <div class="footer">
   <hr class="footer-line"/>
   <div class="container">
      <ul class="nav nav-pills pull-right">
      
-        <li class="disabled"><a href="<%=request.getContextPath()%>">Home</a></li>
-        <li><a href="<%=request.getContextPath()%>/App/Donation">Donation</a></li>
+        <li <%= pageName == Page.home ? "class='disabled'": "" %>>
+        	<a href="<%=request.getContextPath()%>/App/Home">Home</a>
+        </li>
+        <li <%= pageName == Page.donation ? "class='disabled'": "" %>>
+        	<a href="<%=request.getContextPath()%>/App/Donation">Donation</a>
+        </li>
         <%-- <li><a href="<%=request.getContextPath()%>/App/Develop">Develop</a></li> --%>
-        <li><a href="<%=request.getContextPath()%>/App/Feedback">Feedback</a></li>
+        <li <%= pageName == Page.feedback ? "class='disabled'": "" %>>
+        	<a href="<%=request.getContextPath()%>/App/Feedback">Feedback</a>
+        </li>
       </ul>
    </div>
        
-</div>      
+</div>
 
  <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="<%=request.getContextPath()%>/js/jquery.js"></script>

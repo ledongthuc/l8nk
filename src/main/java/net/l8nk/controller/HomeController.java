@@ -19,6 +19,7 @@ import org.apache.log4j.Logger;
 
 import net.l8nk.common.Constants;
 import net.l8nk.common.Utility;
+import net.l8nk.common.Page;
 import net.l8nk.entity.Link;
 import net.l8nk.filter.RootFilter;
 import net.l8nk.service.LinkService;
@@ -54,7 +55,7 @@ public class HomeController extends HttpBasedController {
 		request.setAttribute(Constants.PARAM_MODEL, model);
 		
 		logger.info("HomeController.doGet, begin return view: " + VIEW);
-		this.handleView(VIEW, request, response);
+		this.handleView(VIEW, request, response, Page.home);
 	};
 	
 	@Override
@@ -80,7 +81,7 @@ public class HomeController extends HttpBasedController {
 		model.setRecentLinks(recentLinks);
 		
 		request.setAttribute(Constants.PARAM_MODEL, model);
-		this.handleView(VIEW, request, response);
+		this.handleView(VIEW, request, response, Page.home);
 	}
 	
 	private String getUserCookie(HttpServletRequest request, HttpServletResponse response) {
@@ -130,7 +131,7 @@ public class HomeController extends HttpBasedController {
 			String qrUrl = Utility.composeQrUrl(linkModel.getShortLink(), qrImageWidth, qrImageHeigh);
 			
 			request.setAttribute(Constants.PARAM_MODEL, model);
-			this.handleView(VIEW, request, response);
+			this.handleView(VIEW, request, response, Page.home);
 			return;
 			
 		} catch (Exception e) {
