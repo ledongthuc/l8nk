@@ -39,7 +39,7 @@
                     </div>
                     
                 </div>
-                <div class="col-md-4">
+                <div id="result-panel-wrapper" class="col-md-4">
                 	<% if(model.isGeneratedLink()) { %>
 						<div class="well result-panel">
 							<input id="shortLinkResult" class="result-input" readonly 

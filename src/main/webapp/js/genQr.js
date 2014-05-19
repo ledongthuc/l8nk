@@ -18,6 +18,8 @@ jQuery(document).ready(function() {
 		
 		lastLongLink = currentLongLink;
 		
+		jQuery("#result-panel-wrapper").empty()
+		
 		if(currentLongLink == "" && recentLinks.hasClass("col-md-8")) {
 			recentLinks.removeClass("col-md-8").addClass("col-md-12");
 		} else if(recentLinks.hasClass("col-md-12")) {
