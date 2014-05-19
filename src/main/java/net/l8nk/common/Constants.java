@@ -22,8 +22,8 @@ public class Constants {
 	public static final String PARAM_PAGE = "PAGE";
 	
 	public static final String SHORT_LINK_PARTTEN = "http://l8nk.net/%s";
-	//public static final String QR_IMAGE_LINK_PATTERN = "http://l8nk.net/api/QrRender?u=%s&width=%s&height=%s";
-	public static final String QR_IMAGE_LINK_PATTERN = "http://localhost:8080/l8nk/api/QrRender?u=%s&width=%s&height=%s";
+	public static final String QR_IMAGE_LINK_PATTERN = "http://l8nk.net/api/QrRender?u=%s&width=%s&height=%s";
+	//public static final String QR_IMAGE_LINK_PATTERN = "http://localhost:8080/l8nk/api/QrRender?u=%s&width=%s&height=%s";
 	public static final String USER_ID = "USER_ID";
 	
 	public static final String DATA_SOURCE_JNDI = "java:comp/env/jdbc/l8nkDb";

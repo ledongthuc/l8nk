@@ -53,16 +53,18 @@
             
             <% 
             ArrayList<Link> recents = model.getRecentLinks();
-            if(recents != null && recents.size() > 0) {
+            
             %>
             
-            <div class="row your-links">
+            <div class="row your-links" id="resultPanel">
             
             	<% if(model.isHasQr()) { %>
-            	<div class="col-md-8">
+            	<div id="recentLinks" class="col-md-8 hidden-xs hidden-s">
             	<% } else { %>
-                <div class="col-md-12">
+                <div id="recentLinks" class="col-md-12 hidden-xs hidden-s">
                 <% } %>
+                    
+                    <% if(recents != null && recents.size() > 0) { %>
                     
                     <table class="table table-hover">
                         <tr>
@@ -106,22 +108,24 @@
                             <td>
                                <%= recentLink.getClicks() %>
                             </td>
+                            
                         </tr>
                         
                         <% } %>
                         </table>
+                         <%
+			            }
+			            %>
                         </div>
                         
                         <% if(model.isHasQr()) { %>
-                        	<div class="col-md-4">
-                        		<img width="100%" alt="QR image" title="QR Image" src="<%= model.getQrUrl() %>"/>
+                        	<div class="col-md-4" id="qrImageWrapper">
+                        		<img id="qrImage" width="100%" title="QR Image" src="<%= model.getQrUrl() %>"/>
                         	</div>
                         <% } %>
                         
                 </div>
-            <%
-            }
-            %>
+           
 			   
 			
 			
@@ -133,10 +137,14 @@
    </jsp:include>
 	
 	  <% if(model.isGeneratedLink()) { %>
-    <script >
-      $("#shortLinkResult").select();
-    </script>
-    <% } %>
+	    <script >
+	      $("#shortLinkResult").select();
+	    </script>
+      <% } %>
+      <script>
+      	var hostName = "<%=request.getContextPath()%>";
+      </script>
+      <script type="text/javascript" src="<%=request.getContextPath()%>/js/genQr.js"></script>
 	
   </body>
 </html>
