@@ -38,30 +38,15 @@
                         </form>
                     </div>
                     
-                </div>
-                <div id="result-panel-wrapper" class="col-md-4">
-                	<% if(model.isGeneratedLink()) { %>
-						<div class="well result-panel">
-							<input id="shortLinkResult" class="result-input" readonly 
-									   value="<%= model.getLink().getShortLink() %>" onclick="this.select()"/>
-							<br/>
-							<small class="help-block">press <kbd>CTRL</kbd>+<kbd>C</kbd> to copy.</small>
-						</div>
-					<% } %>
-                </div>
-            </div>
-            
-            <% 
+                     <% 
             ArrayList<Link> recents = model.getRecentLinks();
             
             %>
-            
-            <div class="row your-links" id="resultPanel">
-            
-            	<% if(model.isHasQr()) { %>
-            	<div id="recentLinks" class="col-md-8 hidden-xs hidden-s">
+                    
+                    <% if(model.isHasQr()) { %>
+            	<div id="recentLinks" class="hidden-xs hidden-s">
             	<% } else { %>
-                <div id="recentLinks" class="col-md-12 hidden-xs hidden-s">
+                <div id="recentLinks" class="hidden-xs hidden-s">
                 <% } %>
                     
                     <% if(recents != null && recents.size() > 0) { %>
@@ -117,17 +102,28 @@
 			            }
 			            %>
                         </div>
-                        
-                        <% if(model.isHasQr()) { %>
-                        	<div class="col-md-4" id="qrImageWrapper">
-                        		<img id="qrImage" width="100%" title="QR Image" src="<%= model.getQrUrl() %>"/>
-                        	</div>
-                        <% } %>
-                        
+                    
                 </div>
-           
-			   
-			
+                <div id="result-panel-wrapper" class="col-md-4">
+                
+                	<% if(model.isGeneratedLink()) { %>
+						<div id="result-panel" class="well result-panel">
+							<input id="shortLinkResult" class="result-input" readonly 
+									   value="<%= model.getLink().getShortLink() %>" onclick="this.select()"/>
+							<br/>
+							<small class="help-block">press <kbd>CTRL</kbd>+<kbd>C</kbd> to copy.</small>
+						</div>
+					<% } %>
+					
+					<div id="qrImageWrapper">
+					<% if(model.isHasQr()) { %>
+                    	<img id="qrImage" width="100%" title="QR Image" src="<%= model.getQrUrl() %>"/>
+                    <% } %>
+                    </div>
+					
+                </div>
+            </div>
+            
 			
         </div>
     </div>

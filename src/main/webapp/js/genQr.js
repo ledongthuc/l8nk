@@ -6,7 +6,7 @@ jQuery(document).ready(function() {
 	
 	window.setInterval(function() {
 		
-		var resultPanel = jQuery("#resultPanel");
+		var qrImage = jQuery("#qrImage");
 		var recentLinks = jQuery("#recentLinks");
 		var longLinkInput = jQuery("#longLinkInput");
 		var qrImageWrapper = jQuery("#qrImageWrapper");
@@ -18,7 +18,7 @@ jQuery(document).ready(function() {
 		
 		lastLongLink = currentLongLink;
 		
-		jQuery("#result-panel-wrapper").empty()
+		jQuery("#result-panel").remove()
 		
 		if(currentLongLink == "" && recentLinks.hasClass("col-md-8")) {
 			recentLinks.removeClass("col-md-8").addClass("col-md-12");
@@ -26,8 +26,8 @@ jQuery(document).ready(function() {
 			recentLinks.removeClass("col-md-12").addClass("col-md-8");
 		}
 		
-		if(qrImageWrapper.length == 0) {
-			resultPanel.append("<div class=\"col-md-4\" id=\"qrImageWrapper\"><img id=\"qrImage\" width=\"100%\" title=\"QR Image\" src=\"\"/></div>");
+		if(qrImage.length == 0) {
+			qrImageWrapper.append("<img id=\"qrImage\" width=\"100%\" title=\"QR Image\" src=\"\"/>");
 		}
 		
 		jQuery("#qrImage").attr("src", hostName + "/api/QrRender?u=" + currentLongLink + "&width=" + 300 + "&height=" + 300);
