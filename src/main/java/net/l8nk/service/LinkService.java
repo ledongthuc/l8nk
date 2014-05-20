@@ -58,8 +58,30 @@ public class LinkService {
 		return null;
 	}
 	
+	public static Link GetLinkByUserAgentAndLinkId(String userAgent, long linkId) {
+		try {
+			return DataRepository.getLinkData().getByUserAgent(userAgent, linkId);
+		} catch(Exception ex) {
+			logger.error("LinkService.GetLinkByUserAgentAndLinkId()", ex);
+		}
+		
+		return null;
+	}
+	
+	public static void UpdateUpdatedDateForOwner(String userAgent, long linkId) {
+		try {
+			DataRepository.getLinkData().UpdateUpdatedDateForOwner(userAgent, linkId);
+		} catch(Exception ex) {
+			logger.error("LinkService.UpdateUpdatedDateForOwner()", ex);
+		}
+	}
+	
 	public static void saveLinkToUser(long linkId, String userAgent) {
 		try {
+			if(GetLinkByUserAgentAndLinkId(userAgent, linkId) != null) {
+				UpdateUpdatedDateForOwner(userAgent, linkId);
+			}
+			
 			DataRepository.getLinkData().saveLinkToUser(linkId, userAgent);
 		} catch(Exception ex) {
 			logger.error("LinkService.CreateLink()", ex);

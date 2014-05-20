@@ -9,6 +9,7 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.sql.Types;
 import java.util.ArrayList;
 
@@ -160,7 +161,7 @@ public class LinkData extends DataProviderBase<Link> {
 			PreparedStatement statement = connection.prepareStatement("select link.* from `link`, `linkowner` "
 															+ "where link.linkId = linkowner.linkId "
 															+ "and linkowner.userAgent = '" + userAgent + "'"
-															+ "order by linkowner.id desc");
+															+ "order by linkowner.lastUpdatedDate desc");
 			ResultSet resultSet = statement.executeQuery();
 			
 			ArrayList<Link> links = fillData(resultSet);
@@ -178,14 +179,44 @@ public class LinkData extends DataProviderBase<Link> {
 		return null;
 	}
 	
+	public Link getByUserAgent(String userAgent, long linkId) throws SQLException {
+		Connection connection = null;
+		try {
+			connection = DataConnection.getConnection();
+			
+			PreparedStatement statement = connection.prepareStatement("select link.* from `link`, `linkowner` "
+															+ "where link.linkId = linkowner.linkId "
+															+ "and linkowner.userAgent = ? "
+															+ "and link.linkId = ?");
+			statement.setString(1, userAgent);
+			statement.setObject(2, linkId, Types.BIGINT);
+			ResultSet resultSet = statement.executeQuery();
+			
+			ArrayList<Link> links = fillData(resultSet);
+			if(links != null && !links.isEmpty()) {
+				return links.get(0);
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if(connection != null && !connection.isClosed()) {
+				connection.close();
+			}
+		}
+		
+		return null;
+	}
+	
 	public void saveLinkToUser(long linkId, String userAgent) throws SQLException {
 		Connection connection = null;
 		try {
 			connection = DataConnection.getConnection();
 			
-			PreparedStatement statement = connection.prepareStatement("INSERT IGNORE INTO `linkowner` SET `linkId` = ?, `userAgent` = ?;");
+			PreparedStatement statement = connection.prepareStatement("INSERT IGNORE INTO `linkowner` SET `linkId` = ?, `userAgent` = ?, `lastUpdatedDate` = ?;");
 			statement.setObject(1, linkId, Types.BIGINT);
 			statement.setString(2, userAgent);
+			statement.setTimestamp(3, new Timestamp(System.currentTimeMillis()));
 			statement.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -221,6 +252,25 @@ public class LinkData extends DataProviderBase<Link> {
 			PreparedStatement statement = connection.prepareStatement("INSERT INTO `request` (`userAgent`, `requestDate`, `linkId`) VALUES (?, NOW(), ?);");
 			statement.setString(1, userAgent);
 			statement.setObject(2, linkId, Types.BIGINT);
+			statement.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if(connection != null && !connection.isClosed()) {
+				connection.close();
+			}
+		}
+	}
+
+	public void UpdateUpdatedDateForOwner(String userAgent, long linkId) throws SQLException {
+		Connection connection = null;
+		try {
+			connection = DataConnection.getConnection();
+			
+			PreparedStatement statement = connection.prepareStatement("UPDATE `linkowner` SET lastUpdatedDate = ? WHERE userAgent = ? AND linkId = ?");
+			statement.setTimestamp(1, new Timestamp(System.currentTimeMillis()));
+			statement.setString(2, userAgent);
+			statement.setObject(3, linkId, Types.BIGINT);
 			statement.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();
