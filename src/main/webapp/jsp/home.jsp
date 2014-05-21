@@ -44,9 +44,9 @@
             %>
                     
                     <% if(model.isHasQr()) { %>
-            	<div id="recentLinks" class="hidden-xs hidden-s">
+            	<div id="recentLinks" class="hidden-xs hidden-sm">
             	<% } else { %>
-                <div id="recentLinks" class="hidden-xs hidden-s">
+                <div id="recentLinks" class="hidden-xs hidden-sm">
                 <% } %>
                     
                     <% if(recents != null && recents.size() > 0) { %>
@@ -105,7 +105,6 @@
                     
                 </div>
                 <div id="result-panel-wrapper" class="col-md-4">
-                
                 	<% if(model.isGeneratedLink()) { %>
 						<div id="result-panel" class="well result-panel">
 							<input id="shortLinkResult" class="result-input" readonly 
@@ -115,9 +114,12 @@
 						</div>
 					<% } %>
 					
-					<div id="qrImageWrapper">
+					
 					<% if(model.isHasQr()) { %>
-                    	<img id="qrImage" width="100%" title="QR Image" src="<%= model.getQrUrl() %>"/>
+					<div id="qrImageWrapper" class="well result-panel">
+                    	<img id="qrImage" alt="Generating..." width="100%" title="QR Image" src="<%= model.getQrUrl() %>"/>
+                    <% } else { %>
+                    <div id="qrImageWrapper">
                     <% } %>
                     </div>
 					

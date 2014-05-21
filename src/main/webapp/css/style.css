@@ -51,3 +51,6 @@ a, h3.panel-title a {
 .donation-panel {
 	text-align: center;
 }
+#qrImageWrapper {
+	background: white;
+}

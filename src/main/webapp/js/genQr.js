@@ -17,8 +17,13 @@ jQuery(document).ready(function() {
 		}
 		
 		lastLongLink = currentLongLink;
-		
 		jQuery("#result-panel").remove()
+		
+		if(currentLongLink == "") {
+			qrImage.remove();
+			qrImageWrapper.removeClass("well").removeClass("result-panel");
+			return;
+		}
 		
 		if(currentLongLink == "" && recentLinks.hasClass("col-md-8")) {
 			recentLinks.removeClass("col-md-8").addClass("col-md-12");
@@ -27,7 +32,8 @@ jQuery(document).ready(function() {
 		}
 		
 		if(qrImage.length == 0) {
-			qrImageWrapper.append("<img id=\"qrImage\" width=\"100%\" title=\"QR Image\" src=\"\"/>");
+			qrImageWrapper.append("<img id=\"qrImage\" alt=\"Generating...\" width=\"100%\" title=\"QR Image\" src=\"\"/>");
+			qrImageWrapper.addClass("well").addClass("result-panel");
 		}
 		
 		jQuery("#qrImage").attr("src", hostName + "/api/QrRender?u=" + currentLongLink + "&width=" + 300 + "&height=" + 300);
