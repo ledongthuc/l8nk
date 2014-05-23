@@ -134,11 +134,13 @@
    	<jsp:param value="selected" name="home"/>
    </jsp:include>
 	
+	<script >
 	  <% if(model.isGeneratedLink()) { %>
-	    <script >
-	      $("#shortLinkResult").select();
-	    </script>
+	     	$("#shortLinkResult").select();
+      <% } else { %>
+      		$("#longLinkInput").select();
       <% } %>
+      </script>
       <script>
       	var hostName = "<%=request.getContextPath()%>";
       </script>
