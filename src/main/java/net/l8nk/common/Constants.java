@@ -28,7 +28,11 @@ public class Constants {
 	public static final String DATA_SOURCE_JNDI = "java:comp/env/jdbc/l8nkDb";
 	public static final String CHARSET_UTF8 = "UTF-8";
 	
-	
+	public static final String[] SUPPORTED_PROTOCOLS = new String[] {
+		"http://",
+		"https://",
+		"itms-services://"
+	};
 	
 		
 }

@@ -54,3 +54,6 @@ a, h3.panel-title a {
 #qrImageWrapper {
 	background: white;
 }
+#recentLinks table tr.oldRow {
+	cursor: pointer;
+} 

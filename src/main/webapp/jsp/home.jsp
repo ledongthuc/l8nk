@@ -73,27 +73,32 @@
                             	if(isFirstRow) {
                                  isFirstRow = false;
                         %>
-                                 <tr class="success">
+                        <tr class="success">
                         <%
                             	} else {
                         %>
-                                 <tr>
+                        <tr class="oldRow" 
+                        	data-url-detail="?longLinkInput=<%= recentLink.getLongLink() %>">
                         <%
                             	}
                         %>
                             <td>
-                                <a href="<%= recentLink.getShortLink() %>"><%= recentLink.getLongLink() %></a>
+                            	<a href="?longLinkInput=<%= recentLink.getLongLink() %>" 
+                            	   title="<%= recentLink.getLongLink() %>">
+                            		<%= recentLink.getLongLink() %>
+                            	</a>
                             </td>
                             <%-- <td>
                                 <%= Utility.formatDateDisplay(recentLink.getCreatedDate()) %>
                             </td> --%>
                             <td>
-                                <a href="<%= recentLink.getShortLink() %>"><%= recentLink.getShortLink() %></a>
+                                <a href="?longLinkInput=<%= recentLink.getLongLink() %>">
+                                	<%= recentLink.getShortLink() %>
+                                </a>
                             </td>
                             <td>
                                <%= recentLink.getClicks() %>
                             </td>
-                            
                         </tr>
                         
                         <% } %>
@@ -144,7 +149,8 @@
       <script>
       	var hostName = "<%=request.getContextPath()%>";
       </script>
-      <script type="text/javascript" src="<%=request.getContextPath()%>/js/genQr.js"></script>
+      <script type="text/javascript" src="<%=request.getContextPath()%>/js/genQr.js?v=1.01"></script>
+      <script type="text/javascript" src="<%=request.getContextPath()%>/js/linkResults.js?v-1.00"></script>
 	
   </body>
 </html>

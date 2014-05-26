@@ -8,6 +8,7 @@ import java.security.MessageDigest;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -26,11 +27,30 @@ public class Utility {
 		
 		//rawUrl = rawUrl.toLowerCase();
 		
-		if(!rawUrl.startsWith("http")) {
+		if(!ContainValidProtocol(rawUrl)) {
 			rawUrl = "http://" + rawUrl;
 		}
 		
 		return rawUrl;
+	}
+	
+	public static boolean ContainValidProtocol(String longLink) {
+		try {
+			
+			if(longLink.indexOf("://") > 1) {
+				return true;
+			}
+			/*
+			for (String supportedProtocol : Constants.SUPPORTED_PROTOCOLS) {
+				if(longLink.startsWith(supportedProtocol)) {
+					return true;
+				}
+			}
+			*/
+		} catch(Exception ex) {
+			logger.error("Utility.IsSupportedProtocal()");
+		}
+		return false;
 	}
 
 	public static String buildShortUrl(String encodedPart) {

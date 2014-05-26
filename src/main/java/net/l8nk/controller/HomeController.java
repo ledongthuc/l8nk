@@ -48,14 +48,24 @@ public class HomeController extends HttpBasedController {
 		logger.info("HomeController.doGet, begin process");
 		
 		String userCookie = getUserCookie(request, response);
-		ArrayList<Link> recentLinks = LinkService.GetLinksByUserAgent(userCookie);
+		String lonkLink = request.getParameter("longLinkInput");
 		
-		HomeModel model = new HomeModel();
-		model.setRecentLinks(recentLinks);
-		request.setAttribute(Constants.PARAM_MODEL, model);
+		logger.info("HomeController.doGet, action: " + lonkLink);
 		
-		logger.info("HomeController.doGet, begin return view: " + VIEW);
-		this.handleView(VIEW, request, response, Page.home);
+		if(lonkLink != null && !lonkLink.isEmpty()) {
+			
+			this.createLink(userCookie, request, response);
+			
+		} else {
+			ArrayList<Link> recentLinks = LinkService.GetLinksByUserAgent(userCookie);
+			
+			HomeModel model = new HomeModel();
+			model.setRecentLinks(recentLinks);
+			request.setAttribute(Constants.PARAM_MODEL, model);
+			
+			logger.info("HomeController.doGet, begin return view: " + VIEW);
+			this.handleView(VIEW, request, response, Page.home);
+		}
 	};
 	
 	@Override

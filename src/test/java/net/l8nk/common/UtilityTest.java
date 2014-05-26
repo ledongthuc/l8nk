@@ -39,4 +39,14 @@ public class UtilityTest {
 		assertEquals(false, Utility.isNumeric("123a"));
 		assertEquals(false, Utility.isNumeric("123aa123"));
 	}
+	
+	@Test
+	public void testIsValidProtocol() {
+		assertEquals(true, Utility.ContainValidProtocol("http://thuc.com.vn"));
+		assertEquals(true, Utility.ContainValidProtocol("https://thuc.com.vn"));
+		assertEquals(false, Utility.ContainValidProtocol("thuc.com.vn"));
+		assertEquals(false, Utility.ContainValidProtocol("://thuc.com.vn"));
+		assertEquals(true, Utility.ContainValidProtocol("http://"));
+		assertEquals(true, Utility.ContainValidProtocol("itms-services://?action=download-manifest&url=https://dl.dropboxusercontent.com/u/90905004/istqb/istqb.plist"));
+	}
 }
